@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="HI there! this is my personal Portfolio. " />
-    <link rel="icon" type="image/png" href="..//images/" />
-    <link rel="apple-touch-icon" sizes="180x180" href="..//assets/images/vb - Copy.png" />
+    <link rel="icon" type="image/png" href="..//static/images/" />
+    <link rel="apple-touch-icon" sizes="180x180" href="..//static/assets/static/images/vb - Copy.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Abid – Hussain" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -33,62 +33,40 @@
 
 </head>
 
+ 
 <body>
-    <!-- ===============header design===============... -->
-<header class="header">
-        
-    <a href="http://opty.tech" class="logo" id="changingText">Abid<span class="animate" style="--i:1"></span></a>
-    
-    <nav class="navbar"><span class="animate" style="--i:2"></span>
-        <div class="icon-container">
-            <label for="colorSwitch" class="icon-label"><span class="animate" style="--i:5"></span>
-                <i class="bx bx-palette"></i><input
-                    type="checkbox" id="colorSwitch">
-                </label>
-            <div class="tooltip">themes</div>
-        </div>
-        <div class="active-rectangle" id="activeRectangle">Home
-            <span class="animate" style="--i:4"></span>
-        </div>
-        <nav class="dropdown-content" id="navLinks">
-            <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>    
-            <a href="#services">Services</a>    
-            <a href="#portfolio">Portfolo</a>
-            <a href="#education">Education</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
-    </nav>
-    </nav>
-</header>
+<!-- ===============header===============... -->
+<div id="header-container"></div>
+
+
     <section class="home" id="home">
-<h1>Privacy Policy</h1>
+<h1>Terms and Conditions</h1>
 <p>Last updated: October 02, 2023</p>
-<p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
-<p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. </p>
+<p>These Terms and Conditions describe Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tell You about Your rights and how the law protects You.</p>
+<p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Terms and Conditions.</p>
 <h1>Interpretation and Definitions</h1>
 <h2>Interpretation</h2>
 <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
 <h2>Definitions</h2>
-<p>For the purposes of this Privacy Policy:</p>
+<p>For the purposes of this Terms and Conditions:</p>
 <ul>
 <li>
 <p><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</p>
 </li>
 <li>
-<p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
+<p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
 </li>
 <li>
-<p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Abid hussain.</p>
+<p><strong>Company</strong> (referred to as either "the Company", "We", "Us", or "Our" in this Agreement) refers to Abid hussain.</p>
 </li>
 <li>
 <p><strong>Cookies</strong> are small files that are placed on Your computer, mobile device or any other device by a website, containing the details of Your browsing history on that website among its many uses.</p>
 </li>
 <li>
-<p><strong>Country</strong> refers to: Jammu and Kashmir,  India</p>
+<p><strong>Country</strong> refers to: Jammu and Kashmir, India</p>
 </li>
 <li>
-<p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p>
+<p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone, or a digital tablet.</p>
 </li>
 <li>
 <p><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual.</p>
@@ -242,14 +220,40 @@
 <li>By email: 27aabii@gmail.com</li>
 </ul>
 </section>
-<footer class="footer">
-    <div class="footer-text"  id="navLinks">
-        <a href="#home">Home</a>
-        <a href="..//pages/privacy.html" onclick='return openLink("/privacy.html")'>Privacy</a>
-        <a href="..//pages/terms.html" onclick='return openLink("/terms.html")'>Terms</a></div>
-    <div class="footer-iconTop">
-        <a href="#"><i class="bx bx-up-arrow-alt"></i></a></div>
-</footer>
+
+
+
+
+
+<!-- ===============footer===============... -->
+
+<div id="footer-container"></div>
+
+    <script>
+
+var headerContainer = document.getElementById("header-container");
+        var headerRequest = new XMLHttpRequest();
+        headerRequest.open("GET", "header.html", true);
+        headerRequest.onload = function () {
+            if (headerRequest.status >= 200 && headerRequest.status < 400) {
+                headerContainer.innerHTML = headerRequest.responseText;
+            }
+        };
+        headerRequest.send();
+
+var footerContainer = document.getElementById("footer-container");
+        var footerRequest = new XMLHttpRequest();
+        footerRequest.open("GET", "footer.html", true);
+        footerRequest.onload = function () {
+            if (footerRequest.status >= 200 && footerRequest.status < 400) {
+                footerContainer.innerHTML = footerRequest.responseText;
+            }
+        };
+        footerRequest.send();
+
+
+
+    </script>
 <!--start ===============magic-sectiion=============== -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 <script src="https://unpkg.com/scrollreveal"></script>

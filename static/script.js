@@ -1,90 +1,60 @@
 
-async function fetchAndInsertContent(containerId, contentUrl) {
-  try {
-    const response = await fetch(contentUrl);
-    if (response.status === 200) {
-      const htmlContent = await response.text();
-      document.getElementById(containerId).innerHTML = htmlContent;
-    } else {
-      throw new Error(`Failed to load ${contentUrl}`);
-    }
-  } catch (error) {
-    console.error(error);
-    // You can add error handling here (e.g., display an error message).
-  }
-}
-
-const contentMappings = [
-  { containerId: "header-container", contentUrl: "header.html" },
-    { containerId: "home-container", contentUrl: "home.html" },
-    { containerId: "about-container", contentUrl: "about.html" },
-    { containerId: "services-container", contentUrl: "services.html" },
-    { containerId: "portfolio-container", contentUrl: "portfolio.html" },
-    { containerId: "education-container", contentUrl: "education.html" },
-    { containerId: "ext-container", contentUrl: "ext.html" },
-    { containerId: "skills-container", contentUrl: "skills.html" },
-    { containerId: "contact-container", contentUrl: "contact.html" },
-    { containerId: "footer-container", contentUrl: "footer.html" },
-  // Add other mappings here...
-];
-
-async function fetchAndInsertAllContent() {
-  const promises = contentMappings.map((mapping) =>
-    fetchAndInsertContent(mapping.containerId, mapping.contentUrl)
-  );
-
-  try {
-    await Promise.all(promises);
-  } catch (error) {
-    // Handle any errors that may occur during content loading.
-    console.error("Content loading error:", error);
-    // You can display an error message or take other appropriate actions.
-  }
-}
-
-// Call the function to fetch and insert all content
-fetchAndInsertAllContent();
+        
+        
+  // ======================================================================================      
+        async function fetchAndInsertContent(containerId, contentUrl) {
+          try {
+            const response = await fetch(contentUrl);
+            if (response.status === 200) {
+              const htmlContent = await response.text();
+              document.getElementById(containerId).innerHTML = htmlContent;
+            } else {
+              throw new Error(`Failed to load ${contentUrl}`);
+            }
+          } catch (error) {
+            console.error(error);
+            // You can add error handling here (e.g., display an error message).
+          }
+        }
+        
+        const contentMappings = [
+          // { containerId: "header-container", contentUrl: "public/header.html" },
+            // { containerId: "home-container", contentUrl: "public/home.html" },
+            // { containerId: "about-container", contentUrl: "public/about.html" },
+            // { containerId: "services-container", contentUrl: "public/services.html" },
+            // { containerId: "portfolio-container", contentUrl: "public/portfolio.html" },
+            // { containerId: "education-container", contentUrl: "public/education.html" },
+            { containerId: "ext-container", contentUrl: "public/ext.html" }
+            // { containerId: "skills-container", contentUrl: "public/skills.html" },
+            // { containerId: "contact-container", contentUrl: "public/contact.html" },
+            // { containerId: "footer-container", contentUrl: "public/footer.html" },
+          // Add other mappings here...
+        ];
+        
+        async function fetchAndInsertAllContent() {
+          const promises = contentMappings.map((mapping) =>
+            fetchAndInsertContent(mapping.containerId, mapping.contentUrl)
+          );
+        
+          try {
+            await Promise.all(promises);
+          } catch (error) {
+            // Handle any errors that may occur during content loading.
+            console.error("Content loading error:", error);
+            // You can display an error message or take other appropriate actions.
+          }
+         
+      
+        }
+        
+         // Call the function to fetch and insert all content
+         fetchAndInsertAllContent();
 
 
 
 
 
 // =============================================================================end=====================================
-document.addEventListener("DOMContentLoaded", function() {
-  function animatePercentages() {
-    const percentageSpans = document.querySelectorAll(".skills-content .progress h3 span");
-
-    percentageSpans.forEach((span) => {
-      const targetPercentage = parseInt(span.textContent);
-      let currentPercentage = 0;
-
-      const interval = setInterval(() => {
-        if (currentPercentage >= targetPercentage) {
-          clearInterval(interval);
-        } else {
-          currentPercentage++;
-          span.textContent = currentPercentage + "%";
-        }
-      }, 10);
-    });
-  }
-
-  animatePercentages();
-
-  const skillsSection = document.querySelector(".progress");
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        animatePercentages();
-      }
-    });
-  });
-
-  observer.observe(skillsSection);
-
-
-
 
 
 
@@ -220,78 +190,37 @@ function updateActiveSection() {
       : e.classList.remove("show-animate");
   });
 }
- 
+  function animatePercentages() {
+    const percentageSpans = document.querySelectorAll(".skills-content .progress h3 span");
 
+    percentageSpans.forEach((span) => {
+      const targetPercentage = parseInt(span.textContent);
+      let currentPercentage = 0;
 
-
-
-// Define a variable to keep track of the animation state
-let animationPaused = false;
-let animationTimeout;
-
-function runTiltAnimation() {
-  const card = document.querySelector(".profile-card");
-
-  if (!animationPaused) {
-    card.style.transition = "transform .5s ease-in-out";
-    card.style.transform = "perspective(1000px) rotateY(0deg)";
-    card.style.transform = "perspective(1000px) rotateX(0deg)";
-
-    animationTimeout = setTimeout(function () {
-      card.style.transform = "perspective(1000px) rotateY(-10deg)";
-      setTimeout(function () {
-        card.style.transform = "perspective(1000px) rotateY(20deg)";
-        setTimeout(function () {
-          card.style.transform = "perspective(1000px) rotateY(-20deg)";
-          setTimeout(function () {
-            card.style.transform = "perspective(1000px) rotateY(0deg)";
-            setTimeout(function () {
-              card.style.transform = "perspective(1000px) rotateY(0deg)";
-              // Remove the delay
-              card.style.transition = "transform 1s";
-              setTimeout(function () {
-                card.style.transform = "perspective(1000px) rotateX(-10deg)";
-                setTimeout(function () {
-                  card.style.transform = "perspective(1000px) rotateX(10deg)";
-                  setTimeout(function () {
-                    card.style.transform = "perspective(1000px) rotateX(0deg)";
-                    setTimeout(function () {
-                      card.style.transform = "perspective(1000px) rotateX(0deg)";
-                      card.style.transition = "transform 0s";
-                      setTimeout(runTiltAnimation, 3000);
-                    }, 500);
-                  }, 500);
-                }, 500);
-              }, 500);
-            }, 500);
-          }, 500);
-        }, 500);
-      }, 500);
-    }, 500);
+      const interval = setInterval(() => {
+        if (currentPercentage >= targetPercentage) {
+          clearInterval(interval);
+        } else {
+          currentPercentage++;
+          span.textContent = currentPercentage + "%";
+        }
+      }, 10);
+    });
   }
-}
 
-// Pause the animation when the mouse hovers over the card
-document.querySelector(".container").addEventListener("mouseenter", function () {
-  animationPaused = true;
-  clearTimeout(animationTimeout);
-  // Reset the card's transform to initial state on hover
-  const card = document.querySelector(".profile-card");
-  card.style.transition = "transform 0s";
-  card.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg)";
-});
+  animatePercentages();
 
-// Resume the animation when the mouse leaves the card
-document.querySelector(".profile-card").addEventListener("mouseleave", function () {
-  animationPaused = false;
-  runTiltAnimation();
-});
+  const skillsSection = document.querySelector(".progress");
 
-// Run the animation on page load and repeat it infinitely
-window.addEventListener('load', runTiltAnimation);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animatePercentages();
+      }
+    });
+  });
 
-
-
+  observer.observe(skillsSection);
     //readmorebuttons
     const expandableText = document.getElementById('expandable-text');
     const readMoreButton = document.getElementById('read-more-button');
@@ -369,6 +298,8 @@ serviceBoxes.forEach(function(serviceBox) {
         
   
   updateActiveSection();
+  
+ 
 const changingTextElement = document.getElementById("changingText");
 const textArray = [
   "OPTY",
@@ -391,11 +322,6 @@ function changeTextRandomly() {
   animationInterval = setInterval(changeTextRandomly, randomInterval);
 }
 
-function openLink(e) {
-  const link = e.replace(".html", "");
-  window.open(link, "_blank");
-  return false; // Prevent the default action
-}
 
 changeTextRandomly(); // Start with the initial text change
 
@@ -407,10 +333,14 @@ changingTextElement.addEventListener("mouseleave", () => {
   changeTextRandomly(); // Start with a new random interval when the mouse leaves
 });
 
-const logoLink = document.getElementById("changingText");
-logoLink.addEventListener("error", function () {
-  window.location.href = "http://op10y.github.io/portfolio";
-});
+
+function openLink(e) {
+  const link = e.replace(".html", "");
+  window.open(link, "_blank");
+  return false; // Prevent the default action
+}
+
+
 // =========================Scroll reveal========================
 
   // Initialize ScrollReveal
@@ -425,6 +355,7 @@ logoLink.addEventListener("error", function () {
   ScrollReveal().reveal('.home-content-2nd, .home-content p, .about-content, .navbar, .skills, .heading', { origin: 'top' });
   ScrollReveal().reveal('.profile-card, .services-container, .home-content h1, .about-img, .logo, .education, .portfolio-container, .contact form', { origin: 'bottom' });
 
+
   // Trigger your other CSS animations
   const elementsToAnimate = document.querySelectorAll('.animate, .animate2, .animate3, .new-animate');
 
@@ -433,6 +364,8 @@ logoLink.addEventListener("error", function () {
     element.classList.add('animate');
     element.style.animationDelay = `calc(.5s * ${index})`;
   });
+
+
   const typed = new Typed('.multiple-text', {
     strings: [" Software Dev.!", " Digital Artist", " System Eng.! "],
     typeSpeed: 100,
@@ -547,4 +480,4 @@ navbarLinks2.forEach((e) => {
     n && n.scrollIntoView({ behavior: "smooth" });
   });
 });  
-});
+

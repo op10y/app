@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="HI there! this is my personal Portfolio. " />
-    <link rel="icon" type="image/png" href="/images/optyx.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="images/optyx.png" />
+    <link rel="icon" type="image/png" href="/static/images/optyx.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="static/images/optyx.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Abid – Hussain" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -17,20 +17,134 @@
     <meta property="og:image" content="https://op10y.github.io/profile-card/icon/og-img1.png" />
     <meta name="og:description" content="HI there! this is my personal Portfolio." />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <title>Abid – Hussain</title>
-    
-    <script src="fill.js"></script>
-    <!-- ============================js4loader================= -->
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-        <link  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> 
+    <title>Abid – Hussain</title> 
+    <link rel="preload stylesheet" href="static/styleop.css">
+    <link rel="stylesheet" href="static/hud.css">
+    <!-- =========================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" rel="preload stylesheet">
+        <link  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="preload stylesheet"> 
         
-        <link href="main.css" rel="stylesheet">
-        <link rel="stylesheet" href="public/style.css">
-        <link rel="stylesheet" href="public/main.d873242a.css">
-        <link rel="stylesheet" href="public/styleop.css">
-        <link rel="stylesheet" href="public/hud.css">
-        <script src="loader.js"></script>
+    <script>
+
+      // Function to show the loader with a loading percentage and a dynamic message.
+      function showLoader(percentage, message, message2) {
+        const progressBar = document.getElementById('loading-bar-progress');
+        const loaderText = document.getElementById('loading-items');
+        const loaderText2 = document.getElementById('loading-items2');
+      
+        progressBar.style.transform = `scaleX(${percentage / 100})`; // Update the width of the progress bar
+        loaderText.textContent = `${percentage}% - ${message}`; // Update the loading message
+        loaderText2.textContent = message2; // Update the additional loading message
+      }
+      
+      // Function to hide the loader.
+      function hideLoader() {
+        const loader = document.getElementById('loading');
+        loader.style.display = 'none'; // Hide the loader
+      }
+      
+      // An array of resource URLs to track loading progress.
+      const resources = [
+              'static/app.js',
+              'static/style.css',
+              'static/script.js',
+              'static/styleop.css',
+              'public/header.html',
+              'public/home.html',
+              'public/about.html',
+              'public/services.html',
+              'public/portfolio.html',
+              'public/education.html',
+              'public/skills.html',
+              'public/contact.html',
+              '404.html',
+              'static/pages/prof2/index.html',
+              'static/pages/sidenav/index.html',
+              'static/pages/snake/index.html',
+              'static/pages/privacy.html',
+              'static/pages/terms.html',
+              'ab.PNG',
+              'static/files/av.jpg',
+              'static/images/liteimage.png',
+              'static/images/proimage.jpg',
+              'static/images/optyx.png',
+              'static/images/port1.png',
+              'static/images/port2.png',
+              'static/images/port3.png',
+              'static/images/port4.png',
+              'static/images/anime1.gif',
+              'static/hud.css',
+              'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css',
+              'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap',
+              'https://unpkg.com/scrollreveal',
+              'public/resume.pdf',
+              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12',
+              'complete'
+      ];
+      let loadedCount = 0;
+      
+      // Function to track loading progress and update the loader.
+      function trackProgress() {
+        loadedCount++;
+        const percentage = Math.floor((loadedCount / resources.length) * 100);
+        const message = `Loading... ${resources[loadedCount - 1]}`;
+        const message2 = `...`;
+        showLoader(percentage, message, message2);
+      
+        if (loadedCount === resources.length) {
+          // All resources are loaded, hide the loader.
+          hideLoader();
+      
+          // Add your code here that depends on the resources being loaded.
+        }
+      }
+      
+      // Preload resources and track their loading progress.
+      resources.forEach(resourceURL => {
+        const resource = new Image();
+        resource.src = resourceURL;
+        resource.onload = trackProgress;
+        resource.onerror = trackProgress;
+      });
+      
+      
+      
+      const newChangingTextElement = document.getElementById("changingText2");
+      const newTextArray = [
+        "./-",
+        "..|-",
+        "...|/-",
+        "....|-",
+        "...../-",
+        "......|-"
+      ];
+      
+      let newAnimationInterval;
+      
+      function newChangeTextRandomly() {
+        const randomIndex = Math.floor(Math.random() * newTextArray.length);
+        newChangingTextElement.textContent = newTextArray[randomIndex];
+      
+        // Generate a new random interval between 2 and 5 seconds for the next text change
+        const randomInterval = (Math.random() * 30) + 100; // Between 2000ms and 5000ms
+        clearInterval(newAnimationInterval);
+        newAnimationInterval = setInterval(newChangeTextRandomly, randomInterval);
+      }
+      
+      
+      newChangeTextRandomly(); // Start with the initial text change
+      
+      newChangingTextElement.addEventListener("mouseenter", () => {
+        clearInterval(newAnimationInterval);
+      });
+      
+      newChangingTextElement.addEventListener("mouseleave", () => {
+        newChangeTextRandomly(); // Start with a new random interval when the mouse leaves
+      });
+      // ====================================================================
+      
+        </script>  
+       
 </head>
 
 <body>
@@ -46,31 +160,464 @@
   <div id="loading-items2"></div></div>
 </div>
 
-    <div id="header-container">
-    </div>
-    <div id="home-container">
-    </div>
-    <div id="about-container">
-    </div>
-    <div id="services-container">
-    </div>
-    <div id="portfolio-container">
-    </div>
-    <div id="education-container">
-    </div>
-    <div id="skills-container">
-    </div>
-    <div id="contact-container">
-    </div>
-    <div id="footer-container">
-    </div>
+
+
+<header class="header">
+        
+  <a href="http://opty.tech" class="logo" id="changingText">Abid<span class="animate" style="--i:1"></span></a>
+  
+  <nav class="navbar"><span class="animate" style="--i:2"></span>
+      <div class="icon-container">
+          <label for="colorSwitch" class="icon-label"><span class="animate" style="--i:5"></span>
+              <i class="bx bx-palette"></i><input
+                  type="checkbox" id="colorSwitch">
+              </label>
+          <div class="tooltip">themes</div>
+      </div>
+      <div class="active-rectangle" id="activeRectangle">Home
+          <span class="animate" style="--i:4"></span>
+      </div>
+      <nav class="dropdown-content" id="navLinks">
+          <a href="#home" class="active">Home</a>
+          <a href="#about">About</a>    
+          <a href="#services">Services</a>    
+          <a href="#portfolio">Portfolo</a>
+          <a href="#education">Education</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+  </nav>
+  </nav>
+</header>
+
+
+<!-- ===============section and Home design=============== .... -->
+<section class="home show-animate" id="home">
+  <div class="home-content">       
+
+
+    <!-- .............................................................. -->
+      <div class="home-content-2nd">
+  
+          <h3>Hello, it's</h3>
+          <h1>Abid Hussain</h1>
+          <h3>And I'm a <span class="multiple-text"></span></h3>
+  
+          <p>I craft captivating web experiences with precision and cutting-edge technology as a front-end developer.</p>
+          <div class="social-media"><span class="animate4" style="--i:8"></span>
+              <a href="https://linkedin.com/in/op10y" target="_blank"><i class="bx bxl-linkedin"></i></a>
+              <a href="https://github.com/op10y" target="_blank"><i class="bx bxl-github"></i></a>
+              <a href="https://www.instagram.com/0p10y" target="_blank"><i class="bx bxl-instagram"></i></a>
+              <a href="https://www.twitter.com/0p10y" target="_blank"><i class="bx bxl-twitter"></i></a>
+  
+          </div>
+          <div class="btn-box">
+              <a href="resume.pdf" class="btn new-animate" id="resumeButton" target="_blank">Resume</a>
+              <div class="btn-box">
+                  <a href="resume.pdf" download class="btn download-button" id="downloadButton">
+                      <i class='bx bx-download bx-tada'></i>
+                  </a>
+              </div>
+          </div>
+          <span class="animate3" style="--i:5"></span>
+      </div>
+              <!-- ...profilecard... -->
+      <div class="container">  
+          
+          
+        
+          <div class="profile-card" data-tilt data-tilt-max="20">
+            
+              <div class="avatar11">
+                
+              
+                  <img src="static/files/av.jpg" alt="...">
+                  <div class="extended-welcome-holder" id="ext-container">
+                  </div>
+              </div>
+              <div class="profile-card__desc">
+                  <h1>Abid Hussain</h1>
+                  <div>
+                      <p>Creative Developer</p>
+                      <p>Software Engineer</p>
+                      <p>Digital Artist</p>
+                  </div>
+                  <div style="display: flex;align-items:center;gap:10px;justify-content: center;">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin" width="18"
+                          height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <circle cx="12" cy="11" r="3"></circle>
+                          <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z">
+                          </path>
+                      </svg>
+                      <span>Srinagar, j&k</span>
+                  </div>
+              </div>
+              <div class="profile-card2"></div>
+              <div class="profile-card-mid"></div>
+              <div class="profile-card3"></div>
+              <div class="profile-card__social">
+  
+                  <!-- <a href="https://www.facebook.com/abidhussaindar" class="facebook">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook"
+                      width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                      fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3">
+                      </path>
+                  </svg>
+              </a> -->
+                  <a href="https://www.linkedin.com/in/op10y" class="linkedin">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin"
+                          width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                          <line x1="8" y1="11" x2="8" y2="16"></line>
+                          <line x1="8" y1="8" x2="8" y2="8.01"></line>
+                          <line x1="12" y1="16" x2="12" y2="11"></line>
+                          <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+                      </svg>
+                  </a>
+                  <a href="https://www.instagram.com/0ptyx/" class="instagram">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram"
+                          width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+                          <circle cx="12" cy="12" r="3"></circle>
+                          <line x1="16.5" y1="7.5" x2="16.5" y2="7.501"></line>
+                      </svg>
+                  </a>
+                  <a href="https://www.youtube.com/channel/UCoWQIQC0TAadqpDtTGGYjSw" class="youtube">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-youtube"
+                          width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <rect x="3" y="5" width="18" height="14" rx="4"></rect>
+                          <path d="M10 9l5 3l-5 3z"></path>
+                      </svg>
+                  </a>
+                  <a href="https://github.com/op10y" class="github">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24"
+                          height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                          <path
+                              d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5">
+                          </path>
+                      </svg>
+                  </a>
+              </div>
+              <div class="profile-card__actions">
+  
+                  <!-- <button href="static/pages/resume.html" onclick='return openLink("/resume.html")' class="blue1">Resume</button>
+                  <button href="static/pages/resume.html" onclick='return openLink("/resume.html")' class="orange2">CV</button> -->
+  
+              </div>
+              
+          </div>
+          
+          <span class="animate2" style="--i:1"></span>
+
+      </div>
+      <!-- ................................................................. -->
+
+
+              <!-- mobile responsive socialmedia -->
+      <div class="real-media">
+          <a href="https://linkedin.com/in/op10y" target="_blank"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://github.com/op10y" target="_blank"><i class="bx bxl-github"></i></a>
+          <a href="https://www.instagram.com/0p10y" target="_blank"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.twitter.com/0p10y" target="_blank"><i class="bx bxl-twitter"></i></a>
+          </span>
+      </div>
+      <div class="real-box">
+          <a href="resume.pdf" class="real-btn" id="resumeButton" target="_blank">Resume</a>
+          <a href="resume.pdf" download class="real-btn download-button2" id="downloadButton"><i class='bx bx-download bx-tada' ></i></a>
+          
+      </div>
+  </div>
+  
+</section>
+
+
+    <!-- ===============about design=============== -->
+    <section class="about" id="about">
+      <h2 class="heading">About <span>Me</span></h2>
+      <div class="about-img"><img src="static/images/liteimage.png" alt=""><span class="circle-spin"></span></div>
+      <div class="about-content">
+          <h3>Front-end Developer!</h3>
+          <p id="expandable-text">AsalamuAlykum! I'm Abid Hussain, a passionate and results-driven front-end developer
+              with a deep love for crafting immersive digital experiences. I hold a B.Tech in Computer Science and
+              have embarked on an exciting journey to transform innovative ideas into visually captivating and
+              user-friendly web solutions.<br>My fascination with front-end technologies, including HTML, CSS, and
+              JavaScript, knows no bounds. With each line of code, I aim to create seamless, responsive, and
+              pixel-perfect interfaces that not only meet but exceed expectations. Whether it's translating intricate
+              design concepts into reality or optimizing user interfaces for peak performance, I thrive on turning
+              challenges into opportunities for innovation.<br>My journey as a front-end developer is marked by a
+              commitment to continuous learning and staying on the cutting edge of web development trends. I believe
+              that the web has the power to connect, engage, and inspire, and I'm here to make that potential a
+              reality for every project I undertake.<br>But it's not just about the code; it's also about the
+              creativity and passion behind it. I'm not just a developer; I'm a digital storyteller who believes in
+              the art of the web. Each project I take on is an opportunity to weave together aesthetics and
+              functionality, leaving users with an unforgettable digital experience.<br>When I'm not immersed in the
+              world of coding, you can find me exploring new design trends, contributing to open-source projects, or
+              sharing my knowledge through blog posts and articles. I'm not just building websites; I'm building
+              connections and leaving a mark on the digital landscape.<br>Let's embark on this journey together.
+              Whether you're a client seeking a web solution that stands out or a fellow developer looking to
+              collaborate, I'm always excited to connect. Feel free to reach out, and let's create something
+              amazing!<br>Thank you for visiting my portfolio, and I look forward to being part of your next web
+              adventure.</p>
+          <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+      </div>
+  </section>
+
+
+    <!--=============== services section=============== -->
+    <section class="services" id="services">
+
+      <h2 class="heading">My <span>Services</span></h2>
+      
+      <div class="services-container">
+      <!-- ..1. -->
+          <div class="services-box">
+              <i class="bx bx-code-alt"></i>
+              <h3>Web Development</h3>
+              <p id="expandable-text"> "Crafting Web Interfaces with Handcrafted HTML, CSS, and JavaScript." "Crafting Visually Striking Websites: We specialize in creating captivating web experiences that blend modern aesthetics with seamless functionality. From concept to reality, we turn ideas into stunning online presences that leave a lasting impression."</p>   
+                           <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+          </div>
+      <!-- ..2. -->     
+          <div class="services-box">
+              <i class="bx bxs-paint"></i>
+              <h3>Graphic Designing</h3>
+              <p id="expandable-text"> "From Pixels to Motion: We specialize in Graphic Design, VFX Magic, and Video Editing. Our mission is to transform ideas into visually stunning content, whether through striking graphics, cinematic effects, or seamless video edits. Let us bring your vision to life."</p>
+              <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+          </div>          
+      <!-- ..3. -->   
+          <div class="services-box">
+          <i class="bx bx-bar-chart-alt"></i>
+          <h3>Digital Marketing</h3>
+          <p id="expandable-text"> "Unlocking Digital Potential: We specialize in digital marketing strategies that drive online success. From SEO to social media, we create data-driven campaigns that boost your online presence, engage your audience, and deliver tangible results. Let's take your digital journey to the next level."</p>
+          <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+          </div> 
+      </div>
+  </section>
+
+         
+<!-- ===============portfolio secton ===============-->
+<section class="portfolio" id="portfolio">
+  <h2 class="heading">Latest <span>Projects</span></h2>
+
+      <div class="portfolio-container">
+
+          <div class="portfolio-box">
+          <img src="static/images/port1.png" alt="">
+          <div class="portfolio-layer">
+              <h4>Profile Card - Modern Elegance</h4>
+              <p>Introducing our sleek and contemporary Profile Card design,</p>
+              <a href="static/pages/prof2/index.html"><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+          <div class="portfolio-box">
+          <img src="static/images/port2.png" alt="">
+          <div class="portfolio-layer">
+              <h4>Dashboard Menu Streamlined Efficiency</h4>
+              <p>Introducing our Dashboard Menu, a contemporary and efficient navigation solution</p>
+              <a href="static/pages/sidenav/index.html"><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+          <div class="portfolio-box">
+          <img src="static/images/port3.png" alt="">
+          <div class="portfolio-layer">
+              <h4>Game Physics Interactive Realism</h4>
+              <p>Introducing our advanced Game Physics Engine powered by JavaScript,</p>
+              <a href="static/pages/snake/index.html"><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+          <div class="portfolio-box">
+          <img src="static/images/port4.png" alt="">
+          <div class="portfolio-layer">
+              <h4>3D Motion A Visual Alchemy</h4>
+              <p>Prepare to be spellbound by our 3D Motion Morphism Animation,</p>
+              <a href="http://op10y.github.io/profile-card/"><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+          <div class="portfolio-box">
+          <img src="static/images/anime1.gif" alt="">
+          <div class="portfolio-layer">
+              <h4>Web Design</h4>
+              <p>Welcome to our world of Web Design,</p>
+              <a href="404.html" onclick='return openLink("/404.html")'><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+          <div class="portfolio-box">
+          <img src="static/images/anime1.gif" alt="">
+          <div class="portfolio-layer">
+              <h4>Web Design</h4>
+              <p>Welcome to our world of Web Design,</p>
+              <a href="404.html" onclick='return openLink("/404.html")'><i class="bx bx-link-external"></i></a>
+          </div>            
+          </div>
+
+      </div>
 
 
 
+
+  
+</section>
+
+
+
+    <!-- ===============bars1 ===============-->
+    <section class="education" id="education">
+      <h2 class="heading">My <span>Journey</span></h2>
+      <div class="education-row">
+          <div class="education-column">
+              <h3 class="title">Education</h3>
+              <div class="education-box">
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2023-2025</i></div>
+                          <h3>Hifz-e-Quran (in sha Allaah)</h3>
+                          <p>I am committed to the pursuit of Hifz-e-Quran, a noble endeavor to memorize the Quran, In
+                              sha Allaah.</p>
+                      </div>
+                  </div>
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2021-2023</i></div>
+                          <h3>lorem</h3>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, maxime!.</p>
+                      </div>
+                  </div>
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2017-2021</i></div>
+                          <h3>B.Tech CS Degree</h3>
+                          <p>I pursued a B.Tech CS degree, honing skills in algorithms, programming, and web
+                              development, preparing for my career.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="education-column">
+              <h3 class="title">Experience</h3>
+              <div class="education-box">
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2019-2020</i></div>
+                          <h3>Front-end Dev</h3>
+                          <p>I specialized in front-end development, refining my skills in HTML, CSS, and JavaScript
+                              to create captivating web interfaces.</p>
+                      </div>
+                  </div>
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2018-2019</i></div>
+                          <h3>software Dev</h3>
+                          <p>I focused on software development, mastering programming languages and frameworks, and
+                              creating functional, efficient software solutions.</p>
+                      </div>
+                  </div>
+                  <div class="education-content">
+                      <div class="content">
+                          <div class="year"><i class="bx bxs-calendar">2017-2018</i></div>
+                          <h3>Web Dev</h3>
+                          <p>I delved into web development, mastering HTML, CSS, and JavaScript, building interactive
+                              and visually appealing websites.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+
+ <!--=============== bars2 ===============-->
+ <section class="skills" id="skills">
+  <h2 class="heading">My <span>Skills</span></h2>
+  <div class="skills-row">
+      <div class="skills-column">
+          <h3 class="title">Coding Skills</h3>
+          <div class="skills-box">
+              <div class="skills-content">
+                  <div class="progress">
+                      <h3>HTML<span>90%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>CSS<span>80%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>javaScript<span>40%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>Python<span>60%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="skills-column">
+          <h3 class="title">Professional Skills</h3>
+          <div class="skills-box">
+              <div class="skills-content">
+                  <div class="progress">
+                      <h3>Web Design<span>95%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>Graphic Design<span>70%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>Ethical Hacking<span>50%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+                  <div class="progress">
+                      <h3>System Eng.<span>85%</span></h3>
+                      <div class="bar"><span></span></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- ===============popup==============... -->
+<div id="pop" class="pop">
+  <div class="popup-content">
+      <p>Message sent successfully!</p><button id="close-pop" class="close-button">close</button>
+  </div>
+</div>
+<!-- ===============contact-form ===============-->
+<section class="contact" id="contact">
+  <h2 class="heading">Contact <span>Me!</span></h2>
+  <form action="server_script_or_service_url" method="POST">
+      <div class="input-box">
+          <div class="input-field"><input type="text" name="full_name" pattern="[A-Za-z ]{1,20}" title="Full Name should not contain numbers or symbols and should be less than or equal to 20 characters" placeholder="Full Name" required><span class="focus"></span></div>
+          <div class="input-field"><input type="email" name="email" placeholder="Email Address" required><span class="focus"></span></div>
+      </div>
+      <div class="input-box">
+          <div class="input-field"><input type="tel" name="mobile_number" placeholder="Mobile Number" required><span class="focus"></span></div>
+          <div class="input-field"><input type="text" name="email_subject" placeholder="Email Subject" required><span class="focus"></span></div>
+      </div>
+      <div class="textarea-field"><textarea name="message" id="message" cols="30" rows="10" placeholder="Ask Me" required></textarea><span class="focus"></span></div>
+      <div class="btn-box btns"><button type="submit" class="btn">Submit</button></div>
+  </form>
+</section>
+
+</section>
 <!--start ===============magic-sectiion=============== -->
 
-<script src="public/script.js"></script>   
-<script src="public/app.js"></script>
+
+<script src="static/app.js"></script>
+<script src="static/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 <script src="https://unpkg.com/scrollreveal"></script>
 </body>
