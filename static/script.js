@@ -63,6 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
         loaderText.textContent = `${percentage}% - ${message}`; // Update the loading message
         loaderText2.textContent = message2; // Update the additional loading message
       }
+      function hideLoader() {
+        const loader = document.getElementById('loading');
+        loader.style.display = 'none'; // Hide the loader
+      }
+      
       function showPage() {
         const newPage = document.getElementById('html-content');
         newPage.style.display = 'block';
@@ -70,20 +75,18 @@ document.addEventListener('DOMContentLoaded', function () {
       function hideLoaderWithDelay() {
         const loader = document.getElementById('loading');
       
-        // Show the page after a 2-second delay
         hideLoader();
-        setTimeout(showPage, 1000);
-      }
-      // Function to hide the loader.
-      function hideLoader() {
-        const loader = document.getElementById('loading');
-        loader.style.display = 'none'; // Hide the loader
+
+        
+        setTimeout(function() {
+          showPage();
+        }, 500);
+     
       }
       
       // An array of resource URLs to track loading progress.
       const resources = [
               'static/app.js',
-              'static/style.css',
               'static/script.js',
               'static/styleop.css',
               'public/header.html',
@@ -115,8 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
               'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap',
               'https://unpkg.com/scrollreveal',
               'public/resume.pdf',
-              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12',
-              'complete'
+              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12'
       ];
       let loadedCount = 0;
       
@@ -129,11 +131,9 @@ document.addEventListener('DOMContentLoaded', function () {
         showLoader(percentage, message, message2);
       
         if (loadedCount === resources.length) {
-          // All resources are loaded, hide the loader.
+
           hideLoaderWithDelay();
-          // setTimeout(showPage, 2000);
-      
-          // Add your code here that depends on the resources being loaded.
+
         }
       }
       
