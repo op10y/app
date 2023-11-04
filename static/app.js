@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function () {
 
 
 var VanillaTilt = (function () {
@@ -513,4 +513,6 @@ var VanillaTilt = (function () {
     return VanillaTilt;
 
 }());
+
 });
+
