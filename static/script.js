@@ -118,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
               'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap',
               'https://unpkg.com/scrollreveal',
               'public/resume.pdf',
-              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12'
+              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12',
+        'Done !'
       ];
       let loadedCount = 0;
       
@@ -449,7 +450,7 @@ function changeTextRandomly() {
   changingTextElement.textContent = textArray[randomIndex];
 
   // Generate a new random interval between 2 and 5 seconds for the next text change
-  const randomInterval = (Math.random() * 3000) + 2000; // Between 2000ms and 5000ms
+  const randomInterval = (Math.random() * 4000) + 3000; // Between 2000ms and 5000ms
   clearInterval(animationInterval);
   animationInterval = setInterval(changeTextRandomly, randomInterval);
 }
@@ -500,9 +501,9 @@ function openLink(e) {
 
   const typed = new Typed('.multiple-text', {
     strings: [" Software Dev.!", " Digital Artist", " System Eng.! "],
-    typeSpeed: 100,
+    typeSpeed: 200,
     backSpeed: 100,
-    backDelay: 1000,
+    backDelay: 2000,
     loop: true
   });
   //animating skils bars again and agin on view
