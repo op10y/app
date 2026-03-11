@@ -218,8 +218,8 @@ seco{
     padding:14px 28px;
     font-size:18px;
     background: var(--main-color);
-    color:white;
-    text-decoration:none;
+    color: var(--text-color);
+    
     border-radius:8px;
     transition:0.3s;
 }
