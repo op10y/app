@@ -196,7 +196,9 @@ seco{
     color:white;
 }
 .cont{
-	
+	align;items: centre;
+	justify-content: centre;
+	padding: 1rem, 2%
 }
 .cont1{
     text-align:center;
