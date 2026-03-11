@@ -223,7 +223,7 @@
 }
 
 
-.co5 h1{
+.profile-card: h1{
 	
     margin-bottom:25px;
     font-size:30px;
@@ -232,14 +232,10 @@
 
 .avatar11 .btn{
    
-    padding:14px 28px;
-    font-size:25px;
-	position: relative;
-    display: inline-flex;
+    
     justify-content: center;
     align-items: center;
-	letter-spacing: .1rem;
-	overflow: hidden;
+	
 
     background: var(--main-color);
     border: .2rem solid var(--main-color);
