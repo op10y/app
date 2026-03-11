@@ -185,7 +185,48 @@
 
 
 
+seco{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
 
+.cont1{
+    text-align:center;
+    background-color: var(--second-bg-color);
+    padding:40px;
+    border-radius:14px;
+    backdrop-filter: blur(10px);
+}
+
+.cont1: h1{
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.cont1 .btn{
+    display:inline-block;
+    padding:14px 28px;
+    font-size:18px;
+    background: var(--main-color);
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.cont1 .btn:hover{
+    
+    transform:scale(1.05);
+	color: var(--main-color);
+    box-shadow: none;
+    border: .3rem solid var(--newcolor);
+}
 
 
 .newsect{
@@ -225,12 +266,6 @@
 }
 
 
-.profile-card: h1{
-	
-    margin-bottom:5rem;
-    font-size:4rem;
-	
-}
 
 .avatar11 .btn{
    
