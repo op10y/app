@@ -12,7 +12,7 @@
     width: 5px; /* Width of the scrollbar */
     height: 2px;
     display: none;
-  }
+}
   
   ::-webkit-scrollbar-thumb {
     background: var(--main-color);
@@ -212,7 +212,7 @@
     padding:40px;
     
     position: relative;
-    height: 5rem;
+    height: 6rem;
     display: inline-flex;
     /* justify-content: center; */
     align-items: center;
@@ -227,32 +227,17 @@
 }
 
 .co5 .btn{
- /*   display:inline-block;
+   display:inline-block;
     padding:14px 28px;
     font-size:18px;
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    transition:0.3s;*/
 
-
-	position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 15rem;
-    height: 100%;
     background: var(--main-color);
     border: .2rem solid var(--main-color);
     box-shadow: 0 0 1rem var(--main-color);
     border-radius: 4rem;
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: .1rem;
     color: var(--bg-color);
-    z-index: 1;
-    overflow: hidden;
+    
+    
     transition: .5s ease;
 
 
