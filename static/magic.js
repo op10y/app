@@ -338,8 +338,25 @@ serviceBoxes.forEach(function(serviceBox) {
 
 updateActiveSection();
 
+
+
+
+
+
+
+document.getElementById("connect").addEventListener("click", function () {
+    window.open("https://wa.me/919320647041?text=Hello%20I%20want%20to%20order", "_blank");
+});
+
+
+
+
+
+
+
+          
 // ========================================
-    
+
 const navbarLinks2 = document.querySelectorAll(".navbar2 a");
 navbarLinks2.forEach((e) => {
 e.addEventListener("click", function (e) {
@@ -354,6 +371,25 @@ e.addEventListener("click", function (e) {
 });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
 ////////////////////////////////////////////////////////////////////
 
 function openLink(e) {
