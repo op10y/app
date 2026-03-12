@@ -207,7 +207,7 @@ seco{
     border-radius:14px;
     backdrop-filter: blur(10px);
 	align-items:centre;
-	justify-content:space-between;
+	
 }
 
 .cont1 h1{
@@ -216,7 +216,7 @@ seco{
 }
 
 .cont1 .btn-box{
-    display:inline-flex;
+    display:in-line-flex;
     padding:14px 28px;
     font-size:20px;
     background: var(--main-color);
