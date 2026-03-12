@@ -344,9 +344,7 @@ updateActiveSection();
 
 
 
-document.getElementById("connect").addEventListener("click", function () {
-    window.open("https://wa.me/919320647041?text=Hello%20I%20want%20to%20order", "_blank");
-});
+
 
 
 
@@ -454,7 +452,11 @@ localStorage.removeItem('viewCount');
 }
 });
 
+const btn = document.querySelector("#connect");
 
+btn.onclick = () => {
+    window.location.href = "https://wa.me/919320647041?text=Hello%20I%20want%20to%20order";
+};
 
 });
 
