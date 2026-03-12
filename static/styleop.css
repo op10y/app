@@ -213,7 +213,7 @@ seco{
     font-size:28px;
 }
 
-.cont1 .btn{
+.cont1 .btn-box{
     display:inline-block;
     padding:14px 28px;
     font-size:18px;
@@ -224,7 +224,7 @@ seco{
     transition:0.3s;
 }
 
-.cont1 .btn:hover{
+.cont1 .btn-box .btn:hover{
     
     transform:scale(1.05);
 	color: var(--main-color);
