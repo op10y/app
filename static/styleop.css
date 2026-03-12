@@ -214,6 +214,42 @@ seco{
     margin-bottom:25px;
     font-size:28px;
 }
+
+
+
+
+.btn-box2 {
+    position: relative;
+    height: 5rem;
+    display: inline-flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.btn-box2 .btn2 {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    height: 100%;
+    background: var(--main-color);
+    border: .2rem solid var(--main-color);
+    box-shadow: 0 0 1rem var(--main-color);
+    border-radius: 4rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    color: var(--bg-color);
+    z-index: 1;
+    overflow: hidden;
+    transition: .5s ease;
+}
+
+
+
+
+
+
 .cont1 .btn-box{
     display:block;
     
