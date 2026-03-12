@@ -214,12 +214,12 @@ seco{
 }
 
 .cont1 .btn-box{
-    display:inline-block;
+    display:inline-flex;
     padding:14px 28px;
-    font-size:18px;
+    font-size:20px;
     background: var(--main-color);
     color: var(--text-color);
-    
+    aligh-items: centre;
     border-radius:8px;
     transition:0.3s;
 }
