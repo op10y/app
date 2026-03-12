@@ -216,8 +216,8 @@ seco{
 }
 
 .cont1 .btn-box{
-    display:in-line-flex;
-    padding:14px 28px;
+    display:block;
+    
     font-size:20px;
     background: var(--main-color);
     color: var(--text-color);
