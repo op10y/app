@@ -13,7 +13,12 @@
     background: var(--second-bg-color);
     padding-bottom: 3rem
 }
-
+.wa-float{position:fixed;right:1.6rem;bottom:1.6rem;z-index:999;width:4.6rem;height:4.6rem;
+  border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;box-shadow:0 .5rem 1.4rem rgba(0,0,0,.45);
+  opacity:0;transform:translateY(1.4rem) scale(.6);pointer-events:none;
+  transition:opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1);}
+.wa-float.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
 /* Customize the scrollbar for webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
     border-radius: 5px;
