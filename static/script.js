@@ -184,7 +184,14 @@ document.addEventListener('DOMContentLoaded', function () {
       
         
         
-  
+  var waFloat = document.getElementById('waFloat');
+var target = document.getElementById('about2');
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    waFloat.classList.toggle('show', entry.isIntersecting);
+  });
+}, {threshold: 0.15});
+io.observe(target);
 
 
 // =============================================================================end=====================================
