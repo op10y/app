@@ -4,7 +4,15 @@
     visibility: hidden;
 } */
 
-
+.about2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    background: var(--second-bg-color);
+    padding-bottom: 3rem
+}
 
 /* Customize the scrollbar for webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
