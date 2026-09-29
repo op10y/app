@@ -129,7 +129,7 @@ activeRectangle.addEventListener("wheel", (e) => {
     scrollActiveLinkIntoView(),
     activateDropdownLink(activeLinkIndex));
 }),
-  activeRectangle.addEventListener("click", () => {
+  activeRectangle.addEventListener("click", (event) => {
     "block" === navLinks.style.display
       ? (navLinks.style.display = "none")
       : (navLinks.style.display = "block"),
@@ -259,81 +259,35 @@ function updateActiveSection() {
 
 
     //readmorebuttons
-    const expandableText = document.getElementById('expandable-text');
-    const readMoreButton = document.getElementById('read-more-button');
-    const aboutSection = document.getElementById('about');
-
-    let isExpanded = false;
-
-    readMoreButton.addEventListener('click', function() {
-        if (isExpanded) {
-            expandableText.style.maxHeight = '100px'; // Collapse the text
-            readMoreButton.textContent = 'Read More';
-            aboutSection.scrollIntoView({ behavior: 'smooth' }); // Scroll to the "About" section
-        } else {
-            expandableText.style.maxHeight = 'none'; // Fully expand
-            readMoreButton.textContent = 'Read Less';
-            expandableText.scrollIntoView({ behavior: 'smooth' });
-        }
-        isExpanded = !isExpanded;
+    document.querySelectorAll('.expand-text-button').forEach((button) => {
+      const text = button.closest('.about-content, .services-box').querySelector('.expandable-text');
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', String(!expanded));
+        button.textContent = expanded ? 'Read More' : 'Read Less';
+        text.style.maxHeight = expanded ? '10rem' : 'none';
+      });
     });
 
-    const serviceBoxes = document.querySelectorAll('.services-box');
-let currentlyExpanded = null;
-
-serviceBoxes.forEach(function(serviceBox) {
-   
-
-serviceBoxes.forEach(function(serviceBox) {
-    const expandableText = serviceBox.querySelector('#expandable-text');
-    const readMoreButton = serviceBox.querySelector('.btn');
-    const maxHeight = '100px';
-
-    readMoreButton.addEventListener('click', function() {
-        if (currentlyExpanded === expandableText) {
-            expandableText.style.maxHeight = maxHeight;
-            readMoreButton.textContent = 'Read More';
-            currentlyExpanded = null;
-        } else {
-            if (currentlyExpanded) {
-                currentlyExpanded.style.maxHeight = maxHeight;
-                const currentlyExpandedButton = currentlyExpanded.parentElement.querySelector('.btn');
-                if (currentlyExpandedButton) {
-                    currentlyExpandedButton.textContent = 'Read More';
-                }
-            }
-            expandableText.style.maxHeight = 'none';
-            readMoreButton.textContent = 'Read Less';
-            currentlyExpanded = expandableText;
-        }
-    });
-});
-
-});
-
-  //end
 
 
   
-  function e() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-  document.querySelector("form").addEventListener("submit", function (t) {
-    t.preventDefault(),
-      (function () {
-        const t = document.getElementById("pop");
-        document.querySelector("form").reset(),
-          (t.style.display = "block"),
-          setTimeout(function () {
-            (t.style.display = "none"), e();
-          }, 3e3);
-      })();
-  }),
-    document
-      .getElementById("close-pop")
-      .addEventListener("click", function () {
-        (document.getElementById("pop").style.display = "none"), e();
-      });
+  const contactForm = document.querySelector("#contact form");
+  const messagePopup = document.getElementById("pop");
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const subject = encodeURIComponent(formData.get("email_subject"));
+    const body = encodeURIComponent(
+      `Name: ${formData.get("full_name")}\nEmail: ${formData.get("email")}\nPhone: ${formData.get("mobile_number")}\n\n${formData.get("message")}`
+    );
+    window.location.href = `mailto:27aabii@gmail.com?subject=${subject}&body=${body}`;
+    messagePopup.style.display = "block";
+  });
+
+  document.getElementById("close-pop").addEventListener("click", () => {
+    messagePopup.style.display = "none";
+  });
       
 
 updateActiveSection();
@@ -397,67 +351,6 @@ return false; // Prevent the default action
 }
    
 //////////////////////////////////////////////////////////////
-const downloadButton = document.getElementById('downloadButton');
-let downloadCount = localStorage.getItem('downloadCount') || 0;
-
-// Check if the user has already downloaded the file three times
-if (downloadCount >= 3) {
-downloadButton.innerText = 'oh!';
-downloadButton.style.pointerEvents = 'none'; // Disable the button
-}
-
-// Add an event listener to the Download button
-downloadButton.addEventListener('click', function(event) {
-if (downloadCount < 3) {
-    // Increment the download count and update local storage
-    downloadCount++;
-    localStorage.setItem('downloadCount', downloadCount);
-
-    if (downloadCount >= 3) {
-        downloadButton.innerText = 'oh!';
-        downloadButton.style.pointerEvents = 'none'; // Disable the button
-    }
-}
-});
-
-const resumeButton = document.getElementById('resumeButton');
-let viewCount = parseInt(localStorage.getItem('viewCount')) || 0;
-
-// Check if the user has viewed the PDF more than three times
-if (viewCount >= 3) {
-resumeButton.innerText = 'Oh!'; // Change the button text to 'Oh!'
-resumeButton.style.pointerEvents = 'none'; // Disable the button
-} else {
-resumeButton.innerText = 'Resume'; // Restore the button label
-}
-
-// Add an event listener to the Resume button
-resumeButton.addEventListener('click', function(event) {
-if (viewCount < 3) {
-// Increment the view count and update local storage
-viewCount++;
-localStorage.setItem('viewCount', viewCount);
-
-if (viewCount >= 3) {
-resumeButton.innerText = 'Oh!'; // Change the button text to 'Oh!'
-resumeButton.style.pointerEvents = 'none'; // Disable the button
-}
-}
-});
-
-// Listen for the page refresh event and clear the view count only when it reaches the limit
-window.addEventListener('beforeunload', function() {
-if (viewCount >= 3) {
-localStorage.removeItem('viewCount');
-}
-});
-
-const btn = document.querySelector("#connect");
-
-btn.onclick = () => {
-    window.location.href = "https://wa.me/919320647041?text=Hello%20I%20want%20to%20order";
-};
-
 });
 
 

@@ -21,12 +21,11 @@
     
 
     <link rel="stylesheet" href="static/styleop.css">
-    <link rel="stylesheet" href="static/styleop2.css">
-    
-
     <link href="static/hud.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/styleop2.css">
     <!-- =========================================== -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" id="load-link" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
         <link  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" id="load-link" rel="stylesheet"> 
 
@@ -43,14 +42,34 @@
 <body>
  
 <div class="l-all" id="loading">
-  <h2>Booting<a id="changingText2"></a> <span>op!0y_X </h2>
-  <div class="l-bar" id="loading-bar">
-    <div id="loading-bar-progress-background"></div>
-    <div id="loading-bar-progress"></div>
-  </div>
-  <div class="track">
-  <div id="loading-items">Starting...</div>
-  <div id="loading-items2"></div></div>
+    <div class="loader-console">
+        <div class="loader-topline">
+            <span>OPTIMUS PRIME <i>//</i> COMMAND DECK</span>
+            <span class="loader-live"><i></i> SYSTEMS ONLINE</span>
+        </div>
+        <div class="loader-heading">
+            <p class="loader-kicker">CYBERTRONIAN INTERFACE / 01</p>
+            <h2>Booting<a id="changingText2"></a> <span>op!0y_X</span></h2>
+            <p class="loader-subtitle">Initializing the <strong>Autobot</strong> network</p>
+        </div>
+        <div class="loader-gauge-labels">
+            <span>ENERGY TRANSFER</span>
+            <span>CORE LINK <b>ACTIVE</b></span>
+        </div>
+        <div class="l-bar" id="loading-bar">
+            <div id="loading-bar-progress-background"></div>
+            <div id="loading-bar-progress"></div>
+        </div>
+        <div class="track">
+            <div id="loading-items">Starting...</div>
+            <div id="loading-items2"></div>
+        </div>
+        <div class="loader-footer">
+            <div><span>SECTOR</span><strong>EARTH / 07</strong></div>
+            <div><span>POWER</span><strong class="loader-power">NOMINAL</strong></div>
+            <div class="loader-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
 </div>
 <div id="html-content" style="display: none;">
 <!-- <div id="header-container"></div>
@@ -120,7 +139,7 @@
             <div class="btn-box">
                 <a href="https://wa.me/917051697177?text=Hello%20I%20want%20to%20order%20a%20product" class="btn new-animate" target="_blank">Order</a>
                 <div class="btn-box">
-                    <a href="resume.pdf" download class="btn download-button" id="downloadButton">
+                    <a href="public/resume.pdf" download class="btn download-button" id="downloadButtonHome">
                         <i class='bx bx-download bx-tada'></i>
                     </a>
                 </div>
@@ -348,8 +367,8 @@
             </span>
         </div>
         <div class="real-box">
-            <a href="resume.pdf" class="real-btn" id="resumeButton" target="_blank">Resume</a>
-            <a href="resume.pdf" download class="real-btn download-button2" id="downloadButton"><i class='bx bx-download bx-tada' ></i></a>
+            <a href="public/resume.pdf" class="real-btn" id="resumeButton" target="_blank" rel="noopener">Resume</a>
+            <a href="public/resume.pdf" download class="real-btn download-button2" id="downloadButtonStore"><i class='bx bx-download bx-tada' ></i></a>
             
         </div>
     </div>
@@ -729,7 +748,7 @@
         <div class="about-img"><img src="static/images/liteimage.png" alt=""><span class="circle-spin"></span></div>
         <div class="about-content">
             <h3>Front-end Developer!</h3>
-            <p id="expandable-text">AsalamuAlykum! I'm Abid Hussain, a passionate and results-driven front-end developer
+            <p class="expandable-text">AsalamuAlykum! I'm Abid Hussain, a passionate and results-driven front-end developer
                 with a deep love for crafting immersive digital experiences. I hold a B.Tech in Computer Science and
                 have embarked on an exciting journey to transform innovative ideas into visually captivating and
                 user-friendly web solutions.<br>My fascination with front-end technologies, including HTML, CSS, and
@@ -750,7 +769,7 @@
                 collaborate, I'm always excited to connect. Feel free to reach out, and let's create something
                 amazing!<br>Thank you for visiting my portfolio, and I look forward to being part of your next web
                 adventure.</p>
-            <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+            <div class="btn-box btns"><button class="btn expand-text-button" type="button" aria-expanded="false">Read More</button></div>
         </div>
     </section>
 
@@ -766,22 +785,22 @@
             <div class="services-box">
                 <i class="bx bx-code-alt"></i>
                 <h3>Web Development</h3>
-                <p id="expandable-text"> "Crafting Web Interfaces with Handcrafted HTML, CSS, and JavaScript." "Crafting Visually Striking Websites: We specialize in creating captivating web experiences that blend modern aesthetics with seamless functionality. From concept to reality, we turn ideas into stunning online presences that leave a lasting impression."</p>   
-                             <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+                <p class="expandable-text"> "Crafting Web Interfaces with Handcrafted HTML, CSS, and JavaScript." "Crafting Visually Striking Websites: We specialize in creating captivating web experiences that blend modern aesthetics with seamless functionality. From concept to reality, we turn ideas into stunning online presences that leave a lasting impression."</p>
+                             <div class="btn-box btns"><button class="btn expand-text-button" type="button" aria-expanded="false">Read More</button></div>
             </div>
         <!-- ..2. -->     
             <div class="services-box">
                 <i class="bx bxs-paint"></i>
                 <h3>Graphic Designing</h3>
-                <p id="expandable-text"> "From Pixels to Motion: We specialize in Graphic Design, VFX Magic, and Video Editing. Our mission is to transform ideas into visually stunning content, whether through striking graphics, cinematic effects, or seamless video edits. Let us bring your vision to life."</p>
-                <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+                <p class="expandable-text"> "From Pixels to Motion: We specialize in Graphic Design, VFX Magic, and Video Editing. Our mission is to transform ideas into visually stunning content, whether through striking graphics, cinematic effects, or seamless video edits. Let us bring your vision to life."</p>
+                <div class="btn-box btns"><button class="btn expand-text-button" type="button" aria-expanded="false">Read More</button></div>
             </div>          
         <!-- ..3. -->   
             <div class="services-box">
             <i class="bx bx-bar-chart-alt"></i>
             <h3>Digital Marketing</h3>
-            <p id="expandable-text"> "Unlocking Digital Potential: We specialize in digital marketing strategies that drive online success. From SEO to social media, we create data-driven campaigns that boost your online presence, engage your audience, and deliver tangible results. Let's take your digital journey to the next level."</p>
-            <div class="btn-box btns"><button class="btn" id="read-more-button">Read More</button></div>
+            <p class="expandable-text"> "Unlocking Digital Potential: We specialize in digital marketing strategies that drive online success. From SEO to social media, we create data-driven campaigns that boost your online presence, engage your audience, and deliver tangible results. Let's take your digital journey to the next level."</p>
+            <div class="btn-box btns"><button class="btn expand-text-button" type="button" aria-expanded="false">Read More</button></div>
             </div> 
         </div>
     </section>
@@ -978,13 +997,13 @@
 <!-- ===============popup==============... -->
 <div id="pop" class="pop">
     <div class="popup-content">
-        <p>Message sent successfully!</p><button id="close-pop" class="close-button">close</button>
+        <p>Your email draft is ready to send.</p><button id="close-pop" class="close-button" type="button">Close</button>
     </div>
 </div>
 <!-- ===============contact-form ===============-->
 <section class="contact" id="contact">
     <h2 class="heading">Contact <span>Me!</span></h2>
-    <form action="server_script_or_service_url" method="POST">
+    <form action="mailto:27aabii@gmail.com" method="get">
         <div class="input-box">
             <div class="input-field"><input type="text" name="full_name" pattern="[A-Za-z ]{1,20}" title="Full Name should not contain numbers or symbols and should be less than or equal to 20 characters" placeholder="Full Name" required><span class="focus"></span></div>
             <div class="input-field"><input type="email" name="email" placeholder="Email Address" required><span class="focus"></span></div>
@@ -1076,8 +1095,8 @@ document.addEventListener("DOMContentLoaded", function () {
 <!--=============== footer-desgn ===============-->
 <footer class="footer">
     <div class="footer-text">
-        <a href="static/pages/privacy.html" onclick='return openLink("/privacy.html")'>Privacy</a>
-        <a href="static/pages/terms.html" onclick='return openLink("/terms.html")'>Terms</a></div>
+        <a href="static/pages/privacy.html">Privacy</a>
+        <a href="static/pages/terms.html">Terms</a></div>
     <div class="footer-iconTop">
         <!-- <a href="#home"><i class="bx bx-up-arrow-alt"></i></a> -->
         <nav class="navbar2">
