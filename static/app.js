@@ -508,6 +508,116 @@ var VanillaTilt = (function () {
          * Auto load
          */
         VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+
+        const profileCard = document.querySelector(".profile-card[data-tilt]");
+        const tiltToggle = document.getElementById("tiltModeToggle");
+        const tiltModeLabel = document.getElementById("tiltModeLabel");
+        const tiltModeStatus = document.getElementById("tiltModeStatus");
+        const profileTilt = profileCard && profileCard.vanillaTilt;
+
+        if (profileTilt && tiltToggle) {
+            function setTiltMode(mode) {
+                const useGyroscope = mode === "gyro";
+                const listener = profileTilt.elementListener;
+
+                listener.removeEventListener("mouseenter", profileTilt.onMouseEnterBind);
+                listener.removeEventListener("mouseleave", profileTilt.onMouseLeaveBind);
+                listener.removeEventListener("mousemove", profileTilt.onMouseMoveBind);
+                window.removeEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+
+                profileTilt.gyroscope = useGyroscope;
+                profileTilt.settings.gyroscope = useGyroscope;
+
+                if (useGyroscope) {
+                    profileTilt.gammazero = null;
+                    profileTilt.betazero = null;
+                    profileTilt.gyroscopeSamples = profileTilt.settings.gyroscopeSamples;
+                    window.addEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+                } else {
+                    listener.addEventListener("mouseenter", profileTilt.onMouseEnterBind);
+                    listener.addEventListener("mouseleave", profileTilt.onMouseLeaveBind);
+                    listener.addEventListener("mousemove", profileTilt.onMouseMoveBind);
+                }
+
+                profileTilt.reset();
+                tiltToggle.setAttribute("aria-pressed", String(useGyroscope));
+                const actionLabel = useGyroscope ? "Switch to mouse tilt" : "Switch to gyroscope tilt";
+                tiltToggle.setAttribute("aria-label", actionLabel);
+                tiltToggle.title = actionLabel;
+                tiltModeLabel.textContent = useGyroscope ? "Gyroscope tilt" : "Mouse tilt";
+                tiltModeStatus.textContent = "";
+                tiltModeStatus.classList.remove("is-visible");
+            }
+
+            tiltToggle.addEventListener("click", async function () {
+                if (!profileTilt.gyroscope) {
+                    try {
+                        if (typeof window.DeviceOrientationEvent === "undefined") {
+                            throw new Error("Device orientation is unavailable.");
+                        }
+
+                        if (typeof window.DeviceOrientationEvent.requestPermission === "function") {
+                            const permission = await window.DeviceOrientationEvent.requestPermission();
+                            if (permission !== "granted") {
+                                throw new Error("Motion access was not granted.");
+                            }
+                        }
+                    } catch (error) {
+                        tiltModeStatus.textContent = error.message;
+                        tiltModeStatus.classList.add("is-visible");
+                        return;
+                    }
+
+                    setTiltMode("gyro");
+                } else {
+                    setTiltMode("mouse");
+                }
+            });
+
+            let touchPointerId = null;
+
+            function finishTouchTilt(event) {
+                if (event.pointerId !== touchPointerId) {
+                    return;
+                }
+
+                touchPointerId = null;
+                profileTilt.setTransition();
+                if (profileTilt.settings.reset) {
+                    requestAnimationFrame(profileTilt.resetBind);
+                }
+                if (profileTilt.gyroscope) {
+                    window.addEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+                }
+            }
+
+            profileCard.addEventListener("pointerdown", function (event) {
+                if ((event.pointerType !== "touch" && event.pointerType !== "pen") || event.target.closest("a, button, input, textarea, select")) {
+                    return;
+                }
+
+                event.preventDefault();
+                touchPointerId = event.pointerId;
+                profileCard.setPointerCapture(event.pointerId);
+                profileTilt.updateElementPosition();
+                profileTilt.setTransition();
+                profileTilt.onMouseMove(event);
+
+                if (profileTilt.gyroscope) {
+                    window.removeEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+                }
+            });
+
+            profileCard.addEventListener("pointermove", function (event) {
+                if (event.pointerId === touchPointerId) {
+                    profileTilt.onMouseMove(event);
+                }
+            });
+
+            profileCard.addEventListener("pointerup", finishTouchTilt);
+            profileCard.addEventListener("pointercancel", finishTouchTilt);
+            profileCard.addEventListener("lostpointercapture", finishTouchTilt);
+        }
     }
 
     return VanillaTilt;

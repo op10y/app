@@ -272,22 +272,12 @@ function updateActiveSection() {
 
 
   
-  const contactForm = document.querySelector("#contact form");
-  const messagePopup = document.getElementById("pop");
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const formData = new FormData(contactForm);
-    const subject = encodeURIComponent(formData.get("email_subject"));
-    const body = encodeURIComponent(
-      `Name: ${formData.get("full_name")}\nEmail: ${formData.get("email")}\nPhone: ${formData.get("mobile_number")}\n\n${formData.get("message")}`
-    );
-    window.location.href = `mailto:27aabii@gmail.com?subject=${subject}&body=${body}`;
-    messagePopup.style.display = "block";
-  });
-
-  document.getElementById("close-pop").addEventListener("click", () => {
-    messagePopup.style.display = "none";
-  });
+  const contactStatus = document.getElementById("contactStatus");
+  if (contactStatus && new URLSearchParams(window.location.search).get("contact") === "sent") {
+    contactStatus.textContent = "TRANSMISSION RECEIVED / MESSAGE DELIVERED";
+    contactStatus.classList.add("is-success");
+    window.history.replaceState(null, "", `${window.location.pathname}#contact`);
+  }
       
 
 updateActiveSection();
