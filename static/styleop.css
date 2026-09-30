@@ -2605,35 +2605,33 @@ and invisible social media and btn-box simulataneosly======== */
 }
 .profile-card2::before {
   content: '';
-  background-image: conic-gradient(var(--main-color) 0deg, transparent 30deg);
-  -webkit-background-image: conic-gradient(var(--main-color) 0deg, transparent 30deg);
-  -moz-background-image: conic-gradient(var(--main-color) 0deg, transparent 30deg);
-  -ms-background-image: conic-gradient(var(--main-color) 0deg, transparent 30deg);
-  -o-background-image: conic-gradient(var(--main-color) 0deg, transparent 30deg);
-      width: 150%;
-      overflow: hidden;
-      height: 150%;
-      position: absolute;
-      animation: rotate 10s linear infinite;
+    background: conic-gradient(
+        transparent 0deg 252deg,
+        color-mix(in srgb, var(--main-color) 30%, transparent) 264deg,
+        var(--main-color) 276deg 288deg,
+        #fff 290deg 292deg,
+        transparent 304deg 360deg
+    );
+    width: 150%;
+    overflow: hidden;
+    height: 150%;
+    position: absolute;
+    filter: drop-shadow(0 0 3px var(--reflect));
+    animation: rotate var(--border-outer-speed, 7s) linear var(--border-outer-direction, normal) infinite, borderGlow 1.8s ease-in-out infinite alternate;
   overflow: hidden;
-      
-    
 }
 
   
 .profile-card2::after {
   content: '';
-  width: 99%;
-  height: 99%;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
   overflow: hidden;
-  background: rgba(var(--second-bg-color).8);
+    background: linear-gradient(145deg, var(--second-bg-color), var(--bg-color));
   /* background: url(/static/images/optyx.png) no-repeat; */
   
-  backdrop-filter: blur(50px) saturate(120%);
-  -webkit-backdrop-filter: blur(30px) saturate(120%);
-  -moz-backdrop-filter: blur(30px) saturate(120%);
-  -ms-backdrop-filter: blur(30px) saturate(120%);
-  -o-backdrop-filter: blur(30px) saturate(120%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   position: absolute;
   border-radius: 10.4rem;
   appearance: none;
@@ -2655,11 +2653,23 @@ and invisible social media and btn-box simulataneosly======== */
   }
 }
 
+@keyframes borderGlow {
+    from {
+        opacity: .72;
+        filter: drop-shadow(0 0 2px var(--reflect));
+    }
 
+    to {
+        opacity: 1;
+        filter: drop-shadow(0 0 4px var(--main-color)) drop-shadow(0 0 7px var(--reflect));
+    }
+}
 
 .profile-card-mid {
-  width: 99.5%;
-  height: 99%;
+    width: calc(100% - 14px);
+    height: calc(100% - 14px);
+        top: 7px;
+        left: 7px;
   border-radius: 10.3rem;
     position: absolute;
     overflow: hidden;
@@ -2674,14 +2684,15 @@ and invisible social media and btn-box simulataneosly======== */
   perspective: 1000px;
   transform: translateZ(px);
   transform-style: preserve-3d;
+    transition: top .18s ease, left .18s ease, width .18s ease, height .18s ease;
 }
 
 
 
 
 .profile-card3 {
-  width: 99.5%;
-  height: 99%;
+    width: calc(100% - 14px);
+    height: calc(100% - 14px);
   /* top: 0; */
   /* box-shadow: 16px 14px 20px var(--second-bg-color); */
   border-radius: 10.3rem;
@@ -2698,22 +2709,77 @@ and invisible social media and btn-box simulataneosly======== */
   perspective: 1000px;
   transform: translateZ(px);
   transform-style: preserve-3d;
-  animation: push 5s ;
-  animation-delay: calc(6s *var(--i));
+    animation: push .65s cubic-bezier(.16, 1, .3, 1) both;
 }
+
+.profile-card:not(.border-in-view) .profile-card2::before {
+    animation-play-state: paused;
+}
+
+.profile-card.border-startup .profile-card2::before {
+    animation-duration: 1.1s, 1.8s;
+}
+
+.profile-card-mid::before {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    border: 1.5px solid transparent;
+    border-radius: inherit;
+    background: conic-gradient(
+        transparent 0deg 260deg,
+        color-mix(in srgb, var(--newcolor) 12%, transparent) 270deg,
+        color-mix(in srgb, var(--newcolor) 38%, transparent) 280deg,
+        var(--newcolor) 288deg 296deg,
+        color-mix(in srgb, var(--newcolor) 38%, transparent) 304deg,
+        transparent 316deg 360deg
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 1px var(--reflect);
+}
+
+.profile-card:hover .profile-card-mid {
+    top: 2px;
+    left: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    border-radius: 10.5rem;
+    overflow: hidden;
+}
+
+.profile-card:hover .profile-card2::before {
+    animation-duration: 4.5s, 1.8s;
+    animation-direction: normal, alternate;
+}
+
+.profile-card:hover .profile-card-mid::before {
+    opacity: .8;
+    animation: hoverInnerOrbit 4.5s linear infinite;
+}
+
+@keyframes hoverInnerOrbit {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes push {
   0%{
-    transform: translateZ(220px);
-    width: 79%;
-    height: 79%;
+        transform: translateZ(8px);
+        opacity: .72;
   }
   
   100%{
-    transform: translateZ(1px);
-    width: 99%;
-  height: 99%;
-      }
+        transform: translateZ(0);
+        opacity: 1;
     }
+}
 
 
 .avatar11 {

@@ -514,6 +514,98 @@ var VanillaTilt = (function () {
         const tiltModeLabel = document.getElementById("tiltModeLabel");
         const tiltModeStatus = document.getElementById("tiltModeStatus");
         const profileTilt = profileCard && profileCard.vanillaTilt;
+        const headerLogo = document.getElementById("changingText");
+
+        if (profileCard && "IntersectionObserver" in window) {
+            let startupOrbit = true;
+
+            function pickOrbitSpeed() {
+                const speed = Math.random() < 0.45
+                    ? 1.6 + Math.random() * 1.1
+                    : 3.4 + Math.random() * 3.2;
+                return `${speed.toFixed(2)}s`;
+            }
+
+            const borderObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) {
+                        profileCard.classList.remove("border-in-view");
+                        return;
+                    }
+
+                    const reverseOuter = Math.random() < 0.5;
+                    profileCard.style.setProperty("--border-outer-speed", pickOrbitSpeed());
+                    profileCard.style.setProperty("--border-outer-direction", reverseOuter ? "reverse" : "normal");
+                    profileCard.classList.add("border-in-view");
+
+                    if (startupOrbit) {
+                        startupOrbit = false;
+                        profileCard.classList.add("border-startup");
+                        window.setTimeout(() => profileCard.classList.remove("border-startup"), 1800);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            borderObserver.observe(profileCard);
+        }
+
+        if (headerLogo && "IntersectionObserver" in window) {
+            headerLogo.addEventListener("animationend", (event) => {
+                if (event.animationName === "home-logo-arrival") {
+                    headerLogo.classList.remove("home-logo-arrival");
+                }
+            });
+
+            const sections = [...document.querySelectorAll("section")];
+            const themeColors = ["#65e3d1", "#a3f77b", "#6de7ff", "#ffc857", "#d8e8f0", "#9fb3c8", "#ff6d55", "#40ff8b"];
+            const commanderColors = ["#58b7ff", "#ff435b", "#ffd166"];
+            let activeSection = null;
+            let previousColor = getComputedStyle(document.documentElement).getPropertyValue("--main-color").trim();
+
+            function replayHackerSection(section) {
+                sections.forEach((item) => item.classList.remove("hacker-section-enter"));
+
+                const rootClasses = document.documentElement.classList;
+                if (!section || (!rootClasses.contains("color-9") && !rootClasses.contains("color-10"))) {
+                    return;
+                }
+
+                void section.offsetWidth;
+                section.classList.add("hacker-section-enter");
+            }
+
+            const themeClassObserver = new MutationObserver(() => replayHackerSection(activeSection));
+            themeClassObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+
+            const sectionObserver = new IntersectionObserver(() => {
+                const viewportCenter = window.innerHeight / 2;
+                const currentSection = sections.slice().reverse().find((section) => {
+                    const bounds = section.getBoundingClientRect();
+                    return bounds.top <= viewportCenter && bounds.bottom > viewportCenter;
+                });
+
+                if (!currentSection || currentSection === activeSection) {
+                    return;
+                }
+
+                activeSection = currentSection;
+                replayHackerSection(currentSection);
+                const sectionColors = document.documentElement.classList.contains("color-10")
+                    ? commanderColors
+                    : themeColors;
+                const availableColors = sectionColors.filter((color) => color !== previousColor);
+                previousColor = availableColors[Math.floor(Math.random() * availableColors.length)];
+                headerLogo.style.setProperty("--section-logo-color", previousColor);
+                headerLogo.classList.remove("section-logo-pulse", "home-logo-arrival");
+                void headerLogo.offsetWidth;
+                headerLogo.classList.add("section-logo-pulse");
+            }, { rootMargin: "-49% 0px -49% 0px", threshold: 0 });
+
+            sections.forEach((section) => sectionObserver.observe(section));
+        }
 
         if (profileTilt && tiltToggle) {
             function setTiltMode(mode) {
@@ -617,6 +709,186 @@ var VanillaTilt = (function () {
             profileCard.addEventListener("pointerup", finishTouchTilt);
             profileCard.addEventListener("pointercancel", finishTouchTilt);
             profileCard.addEventListener("lostpointercapture", finishTouchTilt);
+        }
+
+        const homeScene = document.getElementById("home");
+        const homeCopy = homeScene && homeScene.querySelector(".home-content-2nd");
+        const profileStage = homeScene && homeScene.querySelector(".container");
+        const profileName = homeScene && homeScene.querySelector(".profile-card__desc h1");
+        const siteLogo = document.getElementById("changingText");
+        const nextSection = homeScene && homeScene.nextElementSibling;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        if (homeScene && homeCopy && profileStage && profileName && siteLogo && nextSection && nextSection.id === "about2" && !reducedMotion.matches) {
+            homeScene.classList.add("home-scroll-scene");
+
+            let previousScrollY = window.scrollY;
+            let scheduledFrame = null;
+            let profileScrollPaused = false;
+            let nameFlightStarted = false;
+            const nameFlight = document.createElement("span");
+            nameFlight.className = "profile-name-flight";
+            profileName.textContent.trim().split(/\s+/).forEach((word) => {
+                const wordElement = document.createElement("span");
+                wordElement.className = "profile-name-flight-word";
+                wordElement.dataset.word = word;
+                wordElement.textContent = word;
+                nameFlight.appendChild(wordElement);
+            });
+            nameFlight.style.opacity = "0";
+            nameFlight.setAttribute("aria-hidden", "true");
+            document.body.appendChild(nameFlight);
+            nameFlight.addEventListener("animationend", (event) => {
+                if (event.animationName === "profile-name-flight-arc") {
+                    nameFlight.style.opacity = "0";
+                    siteLogo.classList.add("home-logo-arrival");
+                }
+            });
+
+            function setProfileTiltPaused(paused) {
+                if (!profileTilt) {
+                    return;
+                }
+
+                const listener = profileTilt.elementListener;
+                listener.removeEventListener("mouseenter", profileTilt.onMouseEnterBind);
+                listener.removeEventListener("mouseleave", profileTilt.onMouseLeaveBind);
+                listener.removeEventListener("mousemove", profileTilt.onMouseMoveBind);
+                window.removeEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+
+                if (paused) {
+                    if (profileTilt.updateCall !== null) {
+                        cancelAnimationFrame(profileTilt.updateCall);
+                        profileTilt.updateCall = null;
+                    }
+                    profileTilt.reset();
+                } else if (profileTilt.gyroscope) {
+                    window.addEventListener("deviceorientation", profileTilt.onDeviceOrientationBind);
+                } else {
+                    listener.addEventListener("mouseenter", profileTilt.onMouseEnterBind);
+                    listener.addEventListener("mouseleave", profileTilt.onMouseLeaveBind);
+                    listener.addEventListener("mousemove", profileTilt.onMouseMoveBind);
+                }
+            }
+
+            function updateNameFlight(progress, viewportHeight) {
+                const flightStart = 0.68;
+
+                if (progress < flightStart) {
+                    nameFlightStarted = false;
+                    profileName.style.opacity = "";
+                    nameFlight.style.opacity = "0";
+                    nameFlight.classList.remove("is-flying");
+                    siteLogo.classList.remove("home-logo-arrival");
+                    return;
+                }
+
+                if (nameFlightStarted) {
+                    profileName.style.opacity = "0";
+                    return;
+                }
+
+                nameFlightStarted = true;
+                const sourceRect = profileName.getBoundingClientRect();
+                const targetRect = siteLogo.getBoundingClientRect();
+                const sourceStyle = getComputedStyle(profileName);
+                const sourceFontSize = (parseFloat(sourceStyle.fontSize) || 30)
+                    * (sourceRect.width / Math.max(profileName.offsetWidth, 1));
+                const targetFontSize = parseFloat(getComputedStyle(siteLogo).fontSize) || 20;
+                const rawStartX = sourceRect.left + sourceRect.width / 2;
+                const rawStartY = sourceRect.top + sourceRect.height / 2;
+                const startX = Math.min(Math.max(rawStartX, 20), window.innerWidth - 20);
+                const startY = rawStartY >= 0 && rawStartY <= viewportHeight
+                    ? rawStartY
+                    : viewportHeight * 0.52;
+                const targetX = targetRect.left + targetRect.width / 2;
+                const targetY = targetRect.top + targetRect.height / 2;
+                const midX = startX + (targetX - startX) * 0.52;
+                const midY = startY + (targetY - startY) * 0.52 - viewportHeight * 0.16;
+                const endScale = targetFontSize / Math.max(sourceFontSize, 1);
+
+                nameFlight.style.fontFamily = sourceStyle.fontFamily;
+                nameFlight.style.fontSize = `${sourceFontSize}px`;
+                nameFlight.style.fontWeight = sourceStyle.fontWeight;
+                nameFlight.style.setProperty("--flight-start-x", `${startX}px`);
+                nameFlight.style.setProperty("--flight-start-y", `${startY}px`);
+                nameFlight.style.setProperty("--flight-mid-x", `${midX}px`);
+                nameFlight.style.setProperty("--flight-mid-y", `${midY}px`);
+                nameFlight.style.setProperty("--flight-target-x", `${targetX}px`);
+                nameFlight.style.setProperty("--flight-target-y", `${targetY}px`);
+                nameFlight.style.setProperty("--flight-end-scale", String(endScale));
+                profileName.style.opacity = "0";
+                nameFlight.classList.add("is-flying");
+            }
+
+            function updateHomeScene() {
+                if (scheduledFrame !== null) {
+                    return;
+                }
+
+                scheduledFrame = requestAnimationFrame(() => {
+                    scheduledFrame = null;
+
+                    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                    const sceneRect = homeScene.getBoundingClientRect();
+                    const sceneDistance = Math.max(homeScene.offsetHeight - viewportHeight, 1);
+                    const progress = Math.min(Math.max(-sceneRect.top / sceneDistance, 0), 1);
+                    const fadeProgress = Math.min(Math.max((progress - 0.72) / 0.25, 0), 1);
+                    const sharedOpacity = 1 - fadeProgress;
+                    const handoffProgress = fadeProgress;
+                    const centerProgress = Math.min(Math.max((progress - 0.12) / 0.5, 0), 1);
+                    const centerEase = centerProgress * centerProgress * (3 - 2 * centerProgress);
+                    const stageOffsetParent = profileStage.offsetParent;
+                    const stageBaseCenter = (stageOffsetParent ? stageOffsetParent.getBoundingClientRect().left : sceneRect.left)
+                        + profileStage.offsetLeft + profileStage.offsetWidth / 2;
+                    const cardCenterOffset = (window.innerWidth / 2 - stageBaseCenter) * centerEase;
+                    const currentScrollY = window.scrollY;
+                    const pauseProfile = progress > 0 && sceneRect.bottom > 0 && sceneRect.top < viewportHeight;
+
+                    if (pauseProfile !== profileScrollPaused) {
+                        profileScrollPaused = pauseProfile;
+                        homeScene.classList.toggle("home-scroll-active", pauseProfile);
+                        setProfileTiltPaused(pauseProfile);
+                    }
+
+                    homeScene.classList.toggle("home-name-active", progress >= 0.28 && progress < 0.72);
+
+                    if (currentScrollY !== previousScrollY && sceneRect.bottom > 0 && sceneRect.top < viewportHeight) {
+                        homeScene.dataset.scrollDirection = currentScrollY < previousScrollY ? "up" : "down";
+                    }
+
+                    previousScrollY = currentScrollY;
+
+                    homeScene.style.setProperty("--home-backdrop-opacity", String(1 - progress * 0.55));
+                    homeScene.style.setProperty("--home-backdrop-shift", `${-18 * progress}vh`);
+                    homeScene.style.setProperty("--home-scene-opacity", String(1 - handoffProgress));
+                    homeScene.style.setProperty("--home-copy-opacity", String(sharedOpacity));
+                    homeScene.style.setProperty("--home-copy-shift", `${-8 * progress}vw`);
+                    homeScene.style.setProperty("--home-copy-rise", `${-3 * progress}vh`);
+                    homeScene.style.setProperty("--home-card-x", `${cardCenterOffset}px`);
+                    homeScene.style.setProperty("--home-card-scale", String(1 + progress * 1.15));
+                    homeScene.style.setProperty("--home-card-opacity", String(sharedOpacity));
+                    homeScene.style.setProperty("--home-card-rise", `${-5 * progress}vh`);
+                    nextSection.style.setProperty("--home-next-overlap", `${-sceneDistance * handoffProgress}px`);
+                    updateNameFlight(progress, viewportHeight);
+
+                    if (progress >= 0.96 && sceneRect.bottom > -viewportHeight / 2) {
+                        const storeLink = document.querySelector('#navLinks a[href="#about2"]');
+                        const activeRectangle = document.getElementById("activeRectangle");
+
+                        if (storeLink && activeRectangle) {
+                            document.querySelectorAll("#navLinks a").forEach((link) => {
+                                link.classList.toggle("active", link === storeLink);
+                            });
+                            activeRectangle.textContent = storeLink.textContent.trim();
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", updateHomeScene, { passive: true });
+            window.addEventListener("resize", updateHomeScene);
+            updateHomeScene();
         }
     }
 

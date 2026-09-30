@@ -72,6 +72,8 @@ const colorSchemes = [
   "color-6",
   "color-7",
   "color-8",
+  "color-9",
+  "color-10",
 ];
 function setCurrentColorScheme() {
   const e = localStorage.getItem("currentColorScheme");
