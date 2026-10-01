@@ -190,21 +190,9 @@ colorSwitch.addEventListener("change", function () {
 
 
 const activeRectangle = document.getElementById("activeRectangle"),
-  navLinks = document.getElementById("navLinks"),
-  menuLabel = document.getElementById("menuLabel");
+  navLinks = document.getElementById("navLinks");
 let activeLinkIndex = 0;
-let previousWindowScrollY = window.scrollY;
 let scrollAnimationTimeout;
-
-function animateMenuLabel(direction) {
-  if (!menuLabel || !direction) {
-    return;
-  }
-
-  menuLabel.classList.remove("menu-label-scroll-up", "menu-label-scroll-down");
-  void menuLabel.offsetWidth;
-  menuLabel.classList.add(direction === "down" ? "menu-label-scroll-up" : "menu-label-scroll-down");
-}
 
 window.addEventListener("scroll", () => {
   document.documentElement.classList.add("is-scrolling");
@@ -216,7 +204,7 @@ window.addEventListener("scroll", () => {
 
 function updateActiveLinkText() {
   const e = navLinks.getElementsByTagName("a");
-  e.length > 0 && (menuLabel ? menuLabel.textContent = e[activeLinkIndex].innerText : activeRectangle.innerText = e[activeLinkIndex].innerText);
+  e.length > 0 && (activeRectangle.innerText = e[activeLinkIndex].innerText);
 }
 function scrollActiveLinkIntoView() {
   const e = navLinks.getElementsByTagName("a");
