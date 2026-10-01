@@ -41,33 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 revealObserver.observe(element);
               });
 
-              let parallaxFrame = null;
-
-              function updateHomeParallax() {
-                parallaxFrame = null;
-                const viewportCenter = window.innerHeight / 2;
-
-                revealTargets.forEach(function (element) {
-                  const bounds = element.getBoundingClientRect();
-                  const elementCenter = bounds.top + bounds.height / 2;
-                  const distance = Math.max(-1, Math.min(1, (viewportCenter - elementCenter) / window.innerHeight));
-                  const direction = Number(element.dataset.parallaxDirection);
-                  const speed = Number(element.dataset.parallaxSpeed);
-
-                  element.style.setProperty('--home-scroll-x', `${distance * speed * direction}px`);
-                  element.style.setProperty('--home-scroll-y', `${distance * speed * 0.65}px`);
-                });
-              }
-
-              function requestHomeParallax() {
-                if (parallaxFrame === null) {
-                  parallaxFrame = requestAnimationFrame(updateHomeParallax);
-                }
-              }
-
-              window.addEventListener('scroll', requestHomeParallax, { passive: true });
-              window.addEventListener('resize', requestHomeParallax);
-              updateHomeParallax();
             }
 
             const sections = document.querySelectorAll('section:not(#home)');
@@ -113,33 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 sectionObserver.observe(element);
               });
 
-              let sectionParallaxFrame = null;
-
-              function updateSectionParallax() {
-                sectionParallaxFrame = null;
-                const viewportCenter = window.innerHeight / 2;
-
-                sectionTargets.forEach(function (element) {
-                  const bounds = element.getBoundingClientRect();
-                  const distance = Math.max(-1, Math.min(1,
-                    (viewportCenter - (bounds.top + bounds.height / 2)) / window.innerHeight));
-                  const direction = Number(element.dataset.parallaxDirection);
-                  const speed = Number(element.dataset.parallaxSpeed);
-
-                  element.style.setProperty('--section-scroll-x', `${distance * speed * direction * 0.35}px`);
-                  element.style.setProperty('--section-scroll-y', `${distance * speed}px`);
-                });
-              }
-
-              function requestSectionParallax() {
-                if (sectionParallaxFrame === null) {
-                  sectionParallaxFrame = requestAnimationFrame(updateSectionParallax);
-                }
-              }
-
-              window.addEventListener('scroll', requestSectionParallax, { passive: true });
-              window.addEventListener('resize', requestSectionParallax);
-              updateSectionParallax();
             }
 
             elementsToAnimate.forEach(function (element, index) {
@@ -490,6 +436,7 @@ function updateActiveSection() {
     mobileNumber?.addEventListener('input', () => validatePhone());
     mobileNumber?.addEventListener('blur', () => validatePhone(true));
     countryCode?.addEventListener('change', () => {
+      countryCode.hidden = countryCode.value === 'custom';
       customCountryCode.hidden = countryCode.value !== 'custom';
       if (countryCode.value === 'custom') {
         customCountryCode.focus();
@@ -497,6 +444,43 @@ function updateActiveSection() {
       validatePhone(true);
     });
     customCountryCode?.addEventListener('input', () => validatePhone());
+
+    const contactDraftKey = 'portfolio-contact-draft';
+    const contactDraftFields = [contactEmail, countryCode, customCountryCode, mobileNumber, document.querySelector('[name="full_name"]'), document.getElementById('message')];
+
+    if (contactForm) {
+      try {
+        const savedDraft = JSON.parse(localStorage.getItem(contactDraftKey) || 'null');
+        if (savedDraft) {
+          contactDraftFields.forEach((field) => {
+            if (field && typeof savedDraft[field.name] === 'string') {
+              field.value = savedDraft[field.name];
+            }
+          });
+          countryCode.hidden = countryCode.value === 'custom';
+          customCountryCode.hidden = countryCode.value !== 'custom';
+          validateContactEmail();
+          validatePhone();
+        }
+      } catch (error) {
+        localStorage.removeItem(contactDraftKey);
+      }
+
+      contactForm.addEventListener('input', () => {
+        const draft = {};
+        contactDraftFields.forEach((field) => {
+          if (field?.name) {
+            draft[field.name] = field.value;
+          }
+        });
+
+        try {
+          localStorage.setItem(contactDraftKey, JSON.stringify(draft));
+        } catch (error) {
+          // Storage may be unavailable in private browsing.
+        }
+      });
+    }
 
     if (contactForm) {
       contactForm.addEventListener('submit', (event) => {
@@ -571,6 +555,7 @@ function updateActiveSection() {
   
   const contactStatus = document.getElementById("contactStatus");
   if (contactStatus && new URLSearchParams(window.location.search).get("contact") === "sent") {
+    localStorage.removeItem('portfolio-contact-draft');
     contactStatus.textContent = "TRANSMISSION RECEIVED / MESSAGE DELIVERED";
     contactStatus.classList.add("is-success");
     window.history.replaceState(null, "", `${window.location.pathname}#contact`);
