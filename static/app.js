@@ -720,8 +720,6 @@ var VanillaTilt = (function () {
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
         if (homeScene && homeCopy && profileStage && profileName && siteLogo && nextSection && nextSection.id === "about2" && !reducedMotion.matches) {
-            homeScene.classList.add("home-scroll-scene");
-
             let previousScrollY = window.scrollY;
             let scheduledFrame = null;
             let profileScrollPaused = false;
@@ -772,53 +770,11 @@ var VanillaTilt = (function () {
             }
 
             function updateNameFlight(progress, viewportHeight) {
-                const flightStart = 0.68;
-
-                if (progress < flightStart) {
-                    nameFlightStarted = false;
-                    profileName.style.opacity = "";
-                    nameFlight.style.opacity = "0";
-                    nameFlight.classList.remove("is-flying");
-                    siteLogo.classList.remove("home-logo-arrival");
-                    return;
-                }
-
-                if (nameFlightStarted) {
-                    profileName.style.opacity = "0";
-                    return;
-                }
-
-                nameFlightStarted = true;
-                const sourceRect = profileName.getBoundingClientRect();
-                const targetRect = siteLogo.getBoundingClientRect();
-                const sourceStyle = getComputedStyle(profileName);
-                const sourceFontSize = (parseFloat(sourceStyle.fontSize) || 30)
-                    * (sourceRect.width / Math.max(profileName.offsetWidth, 1));
-                const targetFontSize = parseFloat(getComputedStyle(siteLogo).fontSize) || 20;
-                const rawStartX = sourceRect.left + sourceRect.width / 2;
-                const rawStartY = sourceRect.top + sourceRect.height / 2;
-                const startX = Math.min(Math.max(rawStartX, 20), window.innerWidth - 20);
-                const startY = rawStartY >= 0 && rawStartY <= viewportHeight
-                    ? rawStartY
-                    : viewportHeight * 0.52;
-                const targetX = targetRect.left + targetRect.width / 2;
-                const targetY = targetRect.top + targetRect.height / 2;
-                const midX = startX + (targetX - startX) * 0.52;
-                const midY = startY + (targetY - startY) * 0.52 - viewportHeight * 0.16;
-                const endScale = targetFontSize / Math.max(sourceFontSize, 1);
-
-                nameFlight.style.fontFamily = sourceStyle.fontFamily;
-                nameFlight.style.fontSize = `${sourceFontSize}px`;
-                nameFlight.style.fontWeight = sourceStyle.fontWeight;
-                nameFlight.style.setProperty("--flight-start-x", `${startX}px`);
-                nameFlight.style.setProperty("--flight-start-y", `${startY}px`);
-                nameFlight.style.setProperty("--flight-mid-x", `${midX}px`);
-                nameFlight.style.setProperty("--flight-mid-y", `${midY}px`);
-                nameFlight.style.setProperty("--flight-target-x", `${targetX}px`);
-                nameFlight.style.setProperty("--flight-target-y", `${targetY}px`);
-                nameFlight.style.setProperty("--flight-end-scale", String(endScale));
-                profileName.style.opacity = "0";
-                nameFlight.classList.add("is-flying");
+                nameFlightStarted = false;
+                profileName.style.opacity = "";
+                nameFlight.style.opacity = "0";
+                nameFlight.classList.remove("is-flying");
+                siteLogo.classList.remove("home-logo-arrival");
             }
 
             function updateHomeScene() {
@@ -863,10 +819,10 @@ var VanillaTilt = (function () {
                     homeScene.style.setProperty("--home-backdrop-shift", `${-18 * progress}vh`);
                     homeScene.style.setProperty("--home-scene-opacity", String(1 - handoffProgress));
                     homeScene.style.setProperty("--home-copy-opacity", String(sharedOpacity));
-                    homeScene.style.setProperty("--home-copy-shift", `${-8 * progress}vw`);
-                    homeScene.style.setProperty("--home-copy-rise", `${-3 * progress}vh`);
-                    homeScene.style.setProperty("--home-card-x", `${cardCenterOffset}px`);
-                    homeScene.style.setProperty("--home-card-scale", String(1 + progress * 1.15));
+                    homeScene.style.setProperty("--home-copy-shift", "0");
+                    homeScene.style.setProperty("--home-copy-rise", "0");
+                    homeScene.style.setProperty("--home-card-x", "0");
+                    homeScene.style.setProperty("--home-card-scale", "1");
                     homeScene.style.setProperty("--home-card-opacity", String(sharedOpacity));
                     homeScene.style.setProperty("--home-card-rise", `${-5 * progress}vh`);
                     nextSection.style.setProperty("--home-next-overlap", `${-sceneDistance * handoffProgress}px`);

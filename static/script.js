@@ -475,9 +475,8 @@ changingTextElement.addEventListener("mouseleave", () => {
 
 
 function openLink(e) {
-  const link = e.replace(".html", "");
-  window.open(link, "_blank");
-  return false; // Prevent the default action
+window.location.assign(e);
+return false;
 }
 
 

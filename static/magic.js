@@ -3,13 +3,156 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
           // Trigger your other CSS animations
-          const elementsToAnimate = document.querySelectorAll('.animate, .animate2, .animate3, .new-animate');
-        
-          elementsToAnimate.forEach(function (element, index) {
-            // Apply your animations using CSS classes
-            element.classList.add('animate');
-            element.style.animationDelay = `calc(.5s * ${index})`;
-          });
+          function startRevealAnimations() {
+            const elementsToAnimate = document.querySelectorAll('.animate, .animate2, .animate3, .new-animate');
+            const homeSection = document.getElementById('home');
+
+            homeSection?.classList.add('home-effects-preview');
+
+            if (homeSection && 'IntersectionObserver' in window) {
+              const revealEffects = [
+                'home-reveal-fade',
+                'home-reveal-slide',
+                'home-reveal-blur',
+                'home-reveal-scale'
+              ];
+              const revealTargets = homeSection.querySelectorAll('.home-content-2nd > *, .container');
+
+              revealTargets.forEach(function (element, index) {
+                const effect = revealEffects[Math.floor(Math.random() * revealEffects.length)];
+                element.classList.add('home-random-target', effect);
+                element.style.setProperty('--home-reveal-delay', `${index * 80}ms`);
+                element.dataset.parallaxDirection = Math.random() < 0.5 ? '-1' : '1';
+                element.dataset.parallaxSpeed = String(8 + Math.floor(Math.random() * 13));
+              });
+
+              const revealObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting) {
+                    return;
+                  }
+
+                  entry.target.classList.add('home-random-visible');
+                  observer.unobserve(entry.target);
+                });
+              }, { threshold: 0.2 });
+
+              revealTargets.forEach(function (element) {
+                revealObserver.observe(element);
+              });
+
+              let parallaxFrame = null;
+
+              function updateHomeParallax() {
+                parallaxFrame = null;
+                const viewportCenter = window.innerHeight / 2;
+
+                revealTargets.forEach(function (element) {
+                  const bounds = element.getBoundingClientRect();
+                  const elementCenter = bounds.top + bounds.height / 2;
+                  const distance = Math.max(-1, Math.min(1, (viewportCenter - elementCenter) / window.innerHeight));
+                  const direction = Number(element.dataset.parallaxDirection);
+                  const speed = Number(element.dataset.parallaxSpeed);
+
+                  element.style.setProperty('--home-scroll-x', `${distance * speed * direction}px`);
+                  element.style.setProperty('--home-scroll-y', `${distance * speed * 0.65}px`);
+                });
+              }
+
+              function requestHomeParallax() {
+                if (parallaxFrame === null) {
+                  parallaxFrame = requestAnimationFrame(updateHomeParallax);
+                }
+              }
+
+              window.addEventListener('scroll', requestHomeParallax, { passive: true });
+              window.addEventListener('resize', requestHomeParallax);
+              updateHomeParallax();
+            }
+
+            const sections = document.querySelectorAll('section:not(#home)');
+            const sectionEffects = [
+              'section-reveal-up',
+              'section-reveal-left',
+              'section-reveal-right',
+              'section-reveal-blur',
+              'section-reveal-scale'
+            ];
+            const sectionTargets = [];
+
+            sections.forEach(function (section, sectionIndex) {
+              const effect = sectionEffects[sectionIndex % sectionEffects.length];
+              const targets = Array.from(section.children).filter(function (element) {
+                return !element.classList.contains('dh-contact')
+                  && !element.classList.contains('about-img');
+              });
+
+              section.classList.add('section-scroll-effects');
+              targets.forEach(function (element, targetIndex) {
+                element.classList.add('section-reveal-target', effect);
+                element.style.setProperty('--section-reveal-delay', `${targetIndex * 90}ms`);
+                element.dataset.parallaxDirection = sectionIndex % 2 === 0 ? '1' : '-1';
+                element.dataset.parallaxSpeed = String(5 + (sectionIndex % 3) * 3);
+                sectionTargets.push(element);
+              });
+            });
+
+            if (sectionTargets.length && 'IntersectionObserver' in window) {
+              const sectionObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting) {
+                    return;
+                  }
+
+                  entry.target.classList.add('section-reveal-visible');
+                  observer.unobserve(entry.target);
+                });
+              }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+              sectionTargets.forEach(function (element) {
+                sectionObserver.observe(element);
+              });
+
+              let sectionParallaxFrame = null;
+
+              function updateSectionParallax() {
+                sectionParallaxFrame = null;
+                const viewportCenter = window.innerHeight / 2;
+
+                sectionTargets.forEach(function (element) {
+                  const bounds = element.getBoundingClientRect();
+                  const distance = Math.max(-1, Math.min(1,
+                    (viewportCenter - (bounds.top + bounds.height / 2)) / window.innerHeight));
+                  const direction = Number(element.dataset.parallaxDirection);
+                  const speed = Number(element.dataset.parallaxSpeed);
+
+                  element.style.setProperty('--section-scroll-x', `${distance * speed * direction * 0.35}px`);
+                  element.style.setProperty('--section-scroll-y', `${distance * speed}px`);
+                });
+              }
+
+              function requestSectionParallax() {
+                if (sectionParallaxFrame === null) {
+                  sectionParallaxFrame = requestAnimationFrame(updateSectionParallax);
+                }
+              }
+
+              window.addEventListener('scroll', requestSectionParallax, { passive: true });
+              window.addEventListener('resize', requestSectionParallax);
+              updateSectionParallax();
+            }
+
+            elementsToAnimate.forEach(function (element, index) {
+              element.style.animationDelay = `calc(.5s * ${index})`;
+            });
+          }
+
+          const pageContent = document.getElementById('html-content');
+          if (pageContent && pageContent.style.display === 'none') {
+            window.addEventListener('page-ready', startRevealAnimations, { once: true });
+          } else {
+            startRevealAnimations();
+          }
         // ==============================================================================================
 
 
@@ -103,6 +246,16 @@ colorSwitch.addEventListener("change", function () {
 const activeRectangle = document.getElementById("activeRectangle"),
   navLinks = document.getElementById("navLinks");
 let activeLinkIndex = 0;
+let scrollAnimationTimeout;
+
+window.addEventListener("scroll", () => {
+  document.documentElement.classList.add("is-scrolling");
+  clearTimeout(scrollAnimationTimeout);
+  scrollAnimationTimeout = setTimeout(() => {
+    document.documentElement.classList.remove("is-scrolling");
+  }, 120);
+}, { passive: true });
+
 function updateActiveLinkText() {
   const e = navLinks.getElementsByTagName("a");
   e.length > 0 && (activeRectangle.innerText = e[activeLinkIndex].innerText);
@@ -271,6 +424,148 @@ function updateActiveSection() {
       });
     });
 
+    const contactForm = document.querySelector('.contact-form');
+    const contactFormStatus = document.getElementById('contactStatus');
+    const contactEmail = document.getElementById('contactEmail');
+    const emailFeedback = document.getElementById('emailFeedback');
+    const countryCode = document.getElementById('countryCode');
+    const customCountryCode = document.getElementById('customCountryCode');
+    const mobileNumber = document.getElementById('mobileNumber');
+    const phoneFeedback = document.getElementById('phoneFeedback');
+
+    function validateContactEmail(showEmptyMessage = false) {
+      if (!contactEmail || !emailFeedback) {
+        return true;
+      }
+
+      const value = contactEmail.value.trim();
+      const isValid = contactEmail.validity.valid && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+
+      if (!value && !showEmptyMessage) {
+        emailFeedback.textContent = '';
+        contactEmail.classList.remove('is-valid', 'is-invalid');
+        return false;
+      }
+
+      emailFeedback.textContent = isValid ? 'Valid email format' : 'Enter a valid email address';
+      contactEmail.classList.toggle('is-valid', isValid);
+      contactEmail.classList.toggle('is-invalid', !isValid);
+      return isValid;
+    }
+
+    contactEmail?.addEventListener('input', () => validateContactEmail());
+    contactEmail?.addEventListener('blur', () => validateContactEmail(true));
+
+    function validatePhone(showEmptyMessage = false) {
+      if (!countryCode || !customCountryCode || !mobileNumber || !phoneFeedback) {
+        return true;
+      }
+
+      const digits = mobileNumber.value.replace(/\D/g, '');
+      const customCode = customCountryCode.value.replace(/\D/g, '');
+      const selectedCode = countryCode.value === 'custom'
+        ? `+${customCode}`
+        : countryCode.value;
+      if (!digits && !showEmptyMessage) {
+        phoneFeedback.textContent = '';
+        mobileNumber.classList.remove('is-valid', 'is-invalid');
+        return true;
+      }
+
+      const combinedLength = selectedCode.replace(/\D/g, '').length + digits.length;
+      const isValid = /^\+\d{1,3}$/.test(selectedCode)
+        && digits.length >= 7 && digits.length <= 12
+        && combinedLength <= 15
+        && !/^([0-9])\1+$/.test(digits)
+        && !/^0+$/.test(digits);
+
+      phoneFeedback.textContent = isValid
+        ? `Format looks valid: ${selectedCode} ${digits}`
+        : 'Enter a valid phone number for the selected country';
+      mobileNumber.classList.toggle('is-valid', isValid);
+      mobileNumber.classList.toggle('is-invalid', !isValid);
+      return isValid;
+    }
+
+    mobileNumber?.addEventListener('input', () => validatePhone());
+    mobileNumber?.addEventListener('blur', () => validatePhone(true));
+    countryCode?.addEventListener('change', () => {
+      customCountryCode.hidden = countryCode.value !== 'custom';
+      if (countryCode.value === 'custom') {
+        customCountryCode.focus();
+      }
+      validatePhone(true);
+    });
+    customCountryCode?.addEventListener('input', () => validatePhone());
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (event) => {
+        if (!validateContactEmail(true)) {
+          event.preventDefault();
+          contactEmail?.focus();
+          return;
+        }
+
+        if (mobileNumber?.value.trim() && !validatePhone(true)) {
+          event.preventDefault();
+          mobileNumber.focus();
+          return;
+        }
+
+        const nextInput = contactForm.querySelector('[name="_next"]');
+        if (nextInput) {
+          const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+          const returnBase = isLocalhost ? 'https://abid.linkpc.net/' : window.location.origin + window.location.pathname;
+          nextInput.value = `${returnBase}?contact=sent#contact`;
+        }
+        if (contactFormStatus) {
+          contactFormStatus.textContent = 'TRANSMITTING / PLEASE WAIT';
+          contactFormStatus.classList.remove('is-success');
+        }
+      });
+    }
+
+    const legalTriggers = document.querySelectorAll('[data-legal]');
+    const legalModals = document.querySelectorAll('.legal-modal');
+    let activeLegalModal = null;
+
+    function closeLegalModal() {
+      if (!activeLegalModal) {
+        return;
+      }
+
+      activeLegalModal.hidden = true;
+      activeLegalModal = null;
+      document.body.classList.remove('legal-modal-open');
+    }
+
+    legalTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        closeLegalModal();
+        activeLegalModal = document.getElementById(`${trigger.dataset.legal}Modal`);
+        if (!activeLegalModal) {
+          return;
+        }
+
+        activeLegalModal.hidden = false;
+        document.body.classList.add('legal-modal-open');
+        activeLegalModal.querySelector('.legal-modal__close')?.focus();
+      });
+    });
+
+    legalModals.forEach((modal) => {
+      modal.querySelectorAll('[data-legal-close]').forEach((closeButton) => {
+        closeButton.addEventListener('click', closeLegalModal);
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeLegalModal();
+      }
+    });
+
 
 
   
@@ -337,9 +632,8 @@ e.addEventListener("click", function (e) {
 ////////////////////////////////////////////////////////////////////
 
 function openLink(e) {
-const link = e.replace(".html", "");
-window.open(link, "_blank");
-return false; // Prevent the default action
+window.location.assign(e);
+return false;
 }
    
 //////////////////////////////////////////////////////////////

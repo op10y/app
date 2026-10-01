@@ -98,18 +98,11 @@ newChangingTextElement.addEventListener("mouseleave", () => {
       function showPage() {
         const newPage = document.getElementById('html-content');
         newPage.style.display = 'block';
+        window.dispatchEvent(new Event('page-ready'));
       }
       function hideLoaderWithDelay() {
-        const loader = document.getElementById('loading');
-      
         hideLoader();
-        
-        
-        setTimeout(function() {
-          showPage();
-        }, 500);
-        
-     
+        showPage();
       }
       
       // An array of resource URLs to track loading progress.
