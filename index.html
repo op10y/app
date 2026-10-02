@@ -24,6 +24,7 @@
     <link href="static/hud.css" rel="stylesheet">
     <link href="static/hud2.css" rel="stylesheet">
     <link rel="stylesheet" href="static/styleop2.css?v=commander-menu-only-3">
+    <link rel="stylesheet" href="static/hero-toggle.css">
     <!-- =========================================== -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" id="load-link" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,6 +42,12 @@
 </head>
 
 <body>
+
+<!-- Floating hero-mode toggle — lives directly in body so position:fixed is viewport-relative -->
+<div id="hero-mode-toggle" role="button" tabindex="0" aria-label="Switch to 3D hero mode" data-tip="3D HERO">
+  <span class="t-icon t-icon-orig"><i class="bx bx-cube-alt"></i></span>
+  <span class="t-icon t-icon-3d"><i class="bx bx-home-alt"></i></span>
+</div>
  
 <div class="l-all" id="loading">
     <div class="loader-console">
@@ -73,6 +80,23 @@
     </div>
 </div>
 <div id="html-content" style="display: none;">
+
+<!-- 3D Portfolio Hero iframe (app2) — loaded only when toggle is clicked -->
+<iframe
+  id="hero-3d-frame"
+  title="3D Cybertronian Portfolio Hero"
+  scrolling="no"
+  allow="autoplay"
+  src="about:blank"
+  data-src="../app2/index.html">
+</iframe>
+
+<!-- Floating hero-mode toggle button -->
+<div id="hero-mode-toggle" role="button" tabindex="0" aria-label="Toggle 3D hero mode" data-tip="3D HERO">
+  <span class="t-icon t-icon-orig"><i class="bx bx-cube-alt"></i></span>
+  <span class="t-icon t-icon-3d"><i class="bx bx-home-alt"></i></span>
+</div>
+
 <!-- <div id="header-container"></div>
 <div id="home-container"></div>
 <div id="about-container"></div>
@@ -1432,6 +1456,58 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="static/app.js?v=commander-deck"></script>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-<!-- <script src="https://unpkg.com/scrollreveal"></script> -->
+<!-- Hero mode toggle logic -->
+<script>
+(function () {
+  var btn    = document.getElementById('hero-mode-toggle');
+  var frame  = document.getElementById('hero-3d-frame');
+  var is3d   = false;
+  var loaded = false;
+
+  // Reveal button once the loader is gone
+  function revealBtn() {
+    btn.classList.add('toggle-ready');
+  }
+  window.addEventListener('page-ready', revealBtn);
+  // Fallback: if page-ready already fired or never comes, reveal after 4s
+  setTimeout(revealBtn, 4000);
+
+  function activate3d() {
+    if (!loaded) {
+      frame.src = frame.dataset.src;
+      loaded = true;
+    }
+    document.body.classList.add('hero-3d-active');
+    btn.setAttribute('data-tip', 'ORIGINAL');
+    btn.setAttribute('aria-label', 'Switch back to original hero');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function deactivate3d() {
+    document.body.classList.remove('hero-3d-active');
+    btn.setAttribute('data-tip', '3D HERO');
+    btn.setAttribute('aria-label', 'Switch to 3D hero mode');
+  }
+
+  function toggle() {
+    is3d = !is3d;
+    if (is3d) activate3d(); else deactivate3d();
+  }
+
+  btn.addEventListener('click', toggle);
+  btn.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+
+  // Hide button when scrolled away from top, show when back at top
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 80) {
+      btn.classList.add('toggle-hidden');
+    } else {
+      btn.classList.remove('toggle-hidden');
+    }
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>

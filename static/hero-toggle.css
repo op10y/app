@@ -1,0 +1,105 @@
+/* =============================================
+   HERO MODE TOGGLE — floating button + iframe
+   ============================================= */
+
+/* iframe — hidden by default, shown in 3D mode */
+#hero-3d-frame {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  border: none;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+/* When 3D mode is active */
+body.hero-3d-active .header        { display: none !important; }
+body.hero-3d-active #home          { display: none !important; }
+body.hero-3d-active #hero-3d-frame { display: block !important; }
+
+/* ── Floating Toggle Button ── */
+#hero-mode-toggle {
+  /* Layout & position */
+  position: fixed;
+  bottom: 18px;
+  left: 14px;
+  z-index: 99999;
+  width: 34px;
+  height: 34px;
+  /* Appearance */
+  border-radius: 50%;
+  background: rgba(0, 161, 222, 0.12);
+  border: 1px solid rgba(0, 161, 222, 0.45);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 2px 12px rgba(0, 161, 222, 0.18);
+  /* Display */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  /* Hidden until page-ready fires */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease, background 0.25s;
+}
+
+/* Revealed by JS after loader completes */
+#hero-mode-toggle.toggle-ready {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#hero-mode-toggle:hover {
+  background: rgba(0, 161, 222, 0.28);
+  transform: scale(1.12);
+}
+
+#hero-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Icon states */
+#hero-mode-toggle .t-icon {
+  font-size: 15px;
+  line-height: 1;
+  color: rgba(0, 200, 255, 0.9);
+}
+
+#hero-mode-toggle .t-icon-orig { display: flex; }
+#hero-mode-toggle .t-icon-3d   { display: none; }
+
+body.hero-3d-active #hero-mode-toggle .t-icon-orig { display: none; }
+body.hero-3d-active #hero-mode-toggle .t-icon-3d   { display: flex; }
+
+/* Tooltip */
+#hero-mode-toggle::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.78);
+  color: #d0f4ff;
+  font-size: 9px;
+  font-family: 'IBM Plex Mono', monospace, sans-serif;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  padding: 3px 7px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s 0.25s;
+}
+
+#hero-mode-toggle.toggle-ready:hover::after {
+  opacity: 1;
+}
+
+/* Scroll-away: hide when scrolled down past 80px */
+#hero-mode-toggle.toggle-hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translateY(8px);
+}

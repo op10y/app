@@ -26,20 +26,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 element.dataset.parallaxSpeed = String(8 + Math.floor(Math.random() * 13));
               });
 
-              const revealObserver = new IntersectionObserver(function (entries, observer) {
-                entries.forEach(function (entry) {
-                  if (!entry.isIntersecting) {
-                    return;
-                  }
+              // Home reveal: fires once on load. Resets when home scrolls fully out
+              // so the animation replays the next time the user scrolls back up.
+              var homeHasBeenSeen = false;
 
-                  entry.target.classList.add('home-random-visible');
-                  observer.unobserve(entry.target);
+              const revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('home-random-visible');
+                    homeHasBeenSeen = true;
+                  }
                 });
               }, { threshold: 0.2 });
+
+              // A section-level observer that resets all home items once the
+              // home section is fully out of view (user scrolled past it)
+              const homeSectionObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting && homeHasBeenSeen) {
+                    // Home left the viewport — reset so re-entry replays animation
+                    revealTargets.forEach(function (el) {
+                      el.classList.remove('home-random-visible');
+                    });
+                    homeHasBeenSeen = false;
+                    // Re-observe items so they fire again on re-entry
+                    revealTargets.forEach(function (element) {
+                      revealObserver.observe(element);
+                    });
+                  }
+                });
+              }, { threshold: 0 });
 
               revealTargets.forEach(function (element) {
                 revealObserver.observe(element);
               });
+              homeSectionObserver.observe(homeSection);
 
             }
 
@@ -55,7 +76,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
             sections.forEach(function (section, sectionIndex) {
               const effect = sectionEffects[sectionIndex % sectionEffects.length];
-              const targets = Array.from(section.children).filter(function (element) {
+
+              // For the store section (#about2), reveal children of dh-store-wrap
+              // so each card/block animates in rather than the whole wrapper at once
+              var directChildren;
+              if (section.id === 'about2') {
+                const storeWrap = section.querySelector('.dh-store-wrap');
+                directChildren = storeWrap
+                  ? Array.from(storeWrap.children)
+                  : Array.from(section.children);
+              } else {
+                directChildren = Array.from(section.children);
+              }
+
+              const targets = directChildren.filter(function (element) {
                 return !element.classList.contains('dh-contact')
                   && !element.classList.contains('about-img');
               });
