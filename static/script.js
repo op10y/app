@@ -16,6 +16,7 @@ async function fetchAndInsertContent(containerId, contentUrl) {
 const contentMappings = [
   { containerId: "header-container", contentUrl: "public/header.html" },
   { containerId: "home-container", contentUrl: "public/home.html" },
+  { containerId: "about2-container", contentUrl: "public/about2.html" },
   { containerId: "about-container", contentUrl: "public/about.html" },
   { containerId: "services-container", contentUrl: "public/services.html" },
   { containerId: "portfolio-container", contentUrl: "public/portfolio.html" },

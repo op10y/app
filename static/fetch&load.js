@@ -118,6 +118,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       contentUrl: "public/home.html"
     },
     {
+      containerId: "about2-container",
+      contentUrl: "public/about2.html"
+    },
+    {
       containerId: "about-container",
       contentUrl: "public/about.html"
     },
