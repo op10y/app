@@ -1,173 +1,231 @@
-// async function fetchAndInsertContent(containerId, contentUrl) {
-//   try {
-//     const response = await fetch(contentUrl);
-//     if (response.status === 200) {
-//       const htmlContent = await response.text();
-//       document.getElementById(containerId).innerHTML = htmlContent;
-//     } else {
-//       throw new Error(`Failed to load ${contentUrl}`);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+document.addEventListener("DOMContentLoaded", async function () {
+  const loader = document.getElementById("loading");
+  const page = document.getElementById("html-content");
+  const progressBar = document.getElementById("loading-bar-progress");
+  const loaderText = document.getElementById("loading-items");
+  const loaderText2 = document.getElementById("loading-items2");
 
-// const contentMappings = [
-//   // { containerId: "header-container", contentUrl: "public/header.html" },
-//   // { containerId: "home-container", contentUrl: "public/home.html" },
-//   { containerId: "about-container", contentUrl: "public/about.html" },
-//   { containerId: "services-container", contentUrl: "public/services.html" },
-//   { containerId: "portfolio-container", contentUrl: "public/portfolio.html" },
-//   { containerId: "education-container", contentUrl: "public/education.html" },
-//   { containerId: "ext-container", contentUrl: "public/ext.html" },
-//   { containerId: "skills-container", contentUrl: "public/skills.html" },
-//   { containerId: "contact-container", contentUrl: "public/contact.html" },
-//   { containerId: "footer-container", contentUrl: "public/footer.html" }
-// ];
+  // =========================================================
+  // LOADER TEXT ANIMATION
+  // =========================================================
 
+  const changingText = document.getElementById("changingText2");
 
-// async function fetchAndInsertAllContent() {
-//   const promises = contentMappings.map((mapping) =>
-//     fetchAndInsertContent(mapping.containerId, mapping.contentUrl)
-//   );
+  const textArray = [
+    "./-",
+    "..|-",
+    "...|/-",
+    "....|-",
+    "...../-",
+    "......|-"
+  ];
 
-//   try {
-//     await Promise.all(promises);
-//   } catch (error) {
-//     console.error("Content loading error:", error);
-//   }
-// }
-//  fetchAndInsertAllContent();
+  let animationInterval = null;
 
-const newChangingTextElement = document.getElementById("changingText2");
-const newTextArray = [
-  "./-",
-  "..|-",
-  "...|/-",
-  "....|-",
-  "...../-",
-  "......|-"
-];
+  function changeLoaderText() {
+    if (!changingText) return;
 
-let newAnimationInterval;
+    const randomIndex = Math.floor(Math.random() * textArray.length);
+    changingText.textContent = textArray[randomIndex];
+  }
 
-function newChangeTextRandomly() {
-  const randomIndex = Math.floor(Math.random() * newTextArray.length);
-  newChangingTextElement.textContent = newTextArray[randomIndex];
+  changeLoaderText();
+  animationInterval = setInterval(changeLoaderText, 200);
 
-  // Generate a new random interval between 2 and 5 seconds for the next text change
-  const randomInterval = (Math.random() * 30) + 100; // Between 2000ms and 5000ms
-  clearInterval(newAnimationInterval);
-  newAnimationInterval = setInterval(newChangeTextRandomly, randomInterval);
-}
+  // =========================================================
+  // LOADER UI
+  // =========================================================
 
+  function updateLoader(percent, message) {
+    if (progressBar) {
+      progressBar.style.transform = `scaleX(${percent / 100})`;
+    }
 
-newChangeTextRandomly(); // Start with the initial text change
+    if (loaderText) {
+      loaderText.textContent = `${percent}% - ${message}`;
+    }
 
-newChangingTextElement.addEventListener("mouseenter", () => {
-  clearInterval(newAnimationInterval);
-});
+    if (loaderText2) {
+      loaderText2.textContent = "...";
+    }
+  }
 
-newChangingTextElement.addEventListener("mouseleave", () => {
-  newChangeTextRandomly(); // Start with a new random interval when the mouse leaves
-});
+  function stopLoaderAnimation() {
+    if (animationInterval) {
+      clearInterval(animationInterval);
+      animationInterval = null;
+    }
+  }
 
- 
- 
-      
+  function finishLoading() {
+    // STOP changingText2 permanently
+    stopLoaderAnimation();
 
+    // Make sure progress reaches 100%
+    updateLoader(100, "Done !");
 
+    // Show page
+    if (page) {
+      page.style.display = "block";
+    }
 
+    // Hide loader
+    if (loader) {
+      loader.style.display = "none";
+    }
 
+    // Tell the rest of your JS that everything is ready
+    window.dispatchEvent(new Event("page-ready"));
+  }
 
-      // Function to show the loader with a loading percentage and a dynamic message.
-      function showLoader(percentage, message, message2) {
-        const progressBar = document.getElementById('loading-bar-progress');
-        const loaderText = document.getElementById('loading-items');
-        const loaderText2 = document.getElementById('loading-items2');
-      
-        progressBar.style.transform = `scaleX(${percentage / 100})`; 
-        loaderText.textContent = `${percentage}% - ${message}`;
-        loaderText2.textContent = message2;
-      }
-      function hideLoader() {
-        const loader = document.getElementById('loading');
-        loader.style.display = 'none'; // Hide the loader
-      }
-      
-      function showPage() {
-        const newPage = document.getElementById('html-content');
-        newPage.style.display = 'block';
-        window.dispatchEvent(new Event('page-ready'));
-      }
-      function hideLoaderWithDelay() {
-        hideLoader();
-        showPage();
-      }
-      
-      // An array of resource URLs to track loading progress.
-      const resources = [
-              'static/app.js',
-              'static/live.js',
-              'static/magic.js',
-              'static/styleop.css',
-              'public/header.html',
-              'public/home.html',
-              'public/about.html',
-              'public/services.html',
-              'public/portfolio.html',
-              'public/education.html',
-              'public/skills.html',
-              'public/contact.html',
-              '404.html',
-              'static/pages/prof2/index.html',
-              'static/pages/sidenav/index.html',
-              'static/pages/snake/index.html',
-              'static/pages/privacy.html',
-              'static/pages/terms.html',
-              'ab.PNG',
-              'static/files/av.jpg',
-              'static/images/liteimage.png',
-              'static/images/proimage.jpg',
-              'static/images/optyx.png',
-              'static/images/port1.png',
-              'static/images/port2.png',
-              'static/images/port3.png',
-              'static/images/port4.png',
-              'static/images/anime1.gif',
-              'static/hud.css',
-              'https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css',
-              'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap',
-              'https://unpkg.com/scrollreveal',
-              'public/resume.pdf',
-              'https://cdn.jsdelivr.net/npm/typed.js@2.0.12'
-      ];
-      let loadedCount = 0;
-      
-      // Function to track loading progress and update the loader.
-      function trackProgress() {
-        loadedCount++;
-        const percentage = Math.floor((loadedCount / resources.length) * 100);
-        const message = `Loading... ${resources[loadedCount - 1]}`;
-        const message2 = `...`;
-        showLoader(percentage, message, message2);
+  // =========================================================
+  // HTML SECTIONS
+  // =========================================================
 
-      
-        if (loadedCount === resources.length) {
+  const contentMappings = [
+    {
+      containerId: "header-container",
+      contentUrl: "public/header.html"
+    },
+    {
+      containerId: "home-container",
+      contentUrl: "public/home.html"
+    },
+    {
+      containerId: "about-container",
+      contentUrl: "public/about.html"
+    },
+    {
+      containerId: "services-container",
+      contentUrl: "public/services.html"
+    },
+    {
+      containerId: "portfolio-container",
+      contentUrl: "public/portfolio.html"
+    },
+    {
+      containerId: "education-container",
+      contentUrl: "public/education.html"
+    },
+    {
+      containerId: "ext-container",
+      contentUrl: "public/ext.html"
+    },
+    {
+      containerId: "skills-container",
+      contentUrl: "public/skills.html"
+    },
+    {
+      containerId: "contact-container",
+      contentUrl: "public/contact.html"
+    },
+    {
+      containerId: "footer-container",
+      contentUrl: "public/footer.html"
+    }
+  ];
 
+  async function loadHTML(mapping) {
+    const container = document.getElementById(mapping.containerId);
 
-          hideLoaderWithDelay();
+    // Some containers may not exist because your current
+    // index.html has some sections directly inside it.
+    if (!container) {
+      return;
+    }
 
-        }
-      }
-      
-      
-      // Preload resources and track their loading progress.
-      resources.forEach(resourceURL => {
-        const resource = new Image();
-        resource.src = resourceURL;
-        resource.onload = trackProgress;
-        resource.onerror = trackProgress;
+    try {
+      const response = await fetch(mapping.contentUrl, {
+        cache: "no-cache"
       });
 
-     
+      if (!response.ok) {
+        throw new Error(
+          `Failed to load ${mapping.contentUrl}: ${response.status}`
+        );
+      }
+
+      const html = await response.text();
+
+      container.innerHTML = html;
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
+  // =========================================================
+  // IMAGE PRELOADING
+  // =========================================================
+
+  function preloadImages() {
+    const images = Array.from(document.images);
+
+    const promises = images.map((img) => {
+      return new Promise((resolve) => {
+
+        // Already loaded
+        if (img.complete) {
+          resolve();
+          return;
+        }
+
+        img.addEventListener("load", resolve, { once: true });
+        img.addEventListener("error", resolve, { once: true });
+      });
+    });
+
+    return Promise.all(promises);
+  }
+
+  // =========================================================
+  // LOAD ALL HTML CONTENT
+  // =========================================================
+
+  updateLoader(10, "Initializing system");
+
+  await Promise.all(
+    contentMappings.map(async (mapping, index) => {
+      await loadHTML(mapping);
+
+      const percent = 10 + Math.floor(
+        ((index + 1) / contentMappings.length) * 45
+      );
+
+      updateLoader(
+        percent,
+        `Loading ${mapping.contentUrl}`
+      );
+    })
+  );
+
+  // =========================================================
+  // WAIT FOR IMAGES
+  // =========================================================
+
+  updateLoader(60, "Loading images");
+
+  await preloadImages();
+
+  updateLoader(80, "Loading interface");
+
+  // Give the browser one frame to finish inserting/rendering
+  await new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(resolve);
+    });
+  });
+
+  // =========================================================
+  // FINISH
+  // =========================================================
+
+  updateLoader(100, "Done !");
+
+  // Small delay so 100% is visible
+  await new Promise((resolve) => setTimeout(resolve, 250));
+
+  finishLoading();
+});

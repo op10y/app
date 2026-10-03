@@ -2880,7 +2880,7 @@ textarea:focus-visible,
 
     .dropdown-content {
         top: calc(100% + 12px);
-        right: 0;
+        right: auto;
         width: min(320px, calc(100vw - 32px));
         min-width: 0;
         max-height: min(70vh, 560px);
@@ -3871,7 +3871,7 @@ textarea:focus-visible,
 
 :root.color-9 .dropdown-content {
     top: calc(100% + 12px);
-    right: 0;
+    /* right: 0; */
     left: auto;
     width: min(320px, calc(100vw - 24px));
     min-width: 250px;
@@ -5405,7 +5405,7 @@ textarea:focus-visible,
     :root.color-10 .dropdown-content,
     :root.color-10 .navbar.active .dropdown-content {
         top: calc(100% + .65rem);
-        right: 0;
+        right: auto;
         left: auto;
         width: min(20rem, calc(100vw - 2rem));
         min-width: 0;

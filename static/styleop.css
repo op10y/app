@@ -397,7 +397,7 @@
 
         #loading h2,
         #loading h2 span {
-            font-size: 34px;
+            font-size: 30px;
         }
 
         .loader-footer {
@@ -863,7 +863,7 @@ border-radius: 1.5rem;
 }
 @media (max-width:768px) {
     .dropdown-content {
-        right: 0;
+        right: auto;
         left: auto;
     }
 
@@ -1887,7 +1887,7 @@ span {
         text-align: center
     }
     .dropdown-content {
-        right: 0;
+        right: auto;
         left: auto;
     }
 

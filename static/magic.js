@@ -226,15 +226,15 @@ colorSwitch.addEventListener("change", function () {
 const activeRectangle = document.getElementById("activeRectangle"),
   navLinks = document.getElementById("navLinks");
 let activeLinkIndex = 0;
-let scrollAnimationTimeout;
+// let scrollAnimationTimeout;
 
-window.addEventListener("scroll", () => {
-  document.documentElement.classList.add("is-scrolling");
-  clearTimeout(scrollAnimationTimeout);
-  scrollAnimationTimeout = setTimeout(() => {
-    document.documentElement.classList.remove("is-scrolling");
-  }, 120);
-}, { passive: true });
+// window.addEventListener("scroll", () => {
+//   document.documentElement.classList.add("is-scrolling");
+//   clearTimeout(scrollAnimationTimeout);
+//   scrollAnimationTimeout = setTimeout(() => {
+//     document.documentElement.classList.remove("is-scrolling");
+//   }, 120);
+// }, { passive: true });
 
 function updateActiveLinkText() {
   const e = navLinks.getElementsByTagName("a");
