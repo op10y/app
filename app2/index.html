@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>Abid Hussain — 3D Cybertronian Portfolio Hero</title>
+  <meta name="description" content="3D Portfolio of Abid Hussain (op10y) — Front-end Developer, Software Engineer, and Digital Artist crafting captivating web experiences with cutting-edge 3D technology.">
+  <meta name="theme-color" content="#00f3ff">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="assets/optyx.png">
+  <link rel="apple-touch-icon" href="assets/optyx.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Abid Hussain — 3D Cybertronian Portfolio">
+  <meta property="og:description" content="Front-end developer & digital artist with a B.Tech in CS. Responsive web experiences combining clean engineering and 3D motion systems.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/av.jpg">
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/hero-3d.css">
+</head>
+<body data-theme="cyan">
+
+  <!-- Ambient Cybertronian Overlays -->
+  <div class="cyber-bg-overlay" aria-hidden="true"></div>
+  <div class="cyber-scanlines" aria-hidden="true"></div>
+
+  <!-- 3D WebGL Canvas Viewport -->
+  <div id="webgl-canvas-container" aria-label="Interactive 3D WebGL Cybertronian Core and Particle Matrix"></div>
+
+  <!-- HUD Navigation Header -->
+  <header class="hud-header" role="banner">
+    <a href="https://opty.linkpc.net" class="hud-brand" title="Optimus Prime Command Deck // Abid Hussain">
+      <img src="assets/optyx.png" alt="op10y logo" class="hud-logo-icon" width="32" height="32">
+      <div class="hud-brand-text">
+        <span class="hud-logo-title"><span id="changingLogoText">ABID HUSSAIN</span></span>
+        <span class="hud-sys-tag">CYBERTRONIAN HUD // SEC_07</span>
+      </div>
+    </a>
+
+    <!-- Live Telemetry Status Readout -->
+    <div class="hud-telemetry-bar" aria-label="System status telemetry">
+      <div class="telemetry-item">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>CORE: <b>ONLINE</b></span>
+      </div>
+      <div class="telemetry-item hide-tablet">
+        <span>SECTOR: <b>EARTH / 07</b></span>
+      </div>
+      <div class="telemetry-item hide-tablet">
+        <span>COORDS: <b>SRINAGAR, J&amp;K</b></span>
+      </div>
+      <div class="telemetry-item">
+        <span id="fpsCounter">60 FPS</span>
+      </div>
+    </div>
+
+    <!-- Quick HUD Action Controls -->
+    <div class="hud-actions">
+      <!-- Theme Switcher -->
+      <div class="theme-dropdown" title="Change Cyber Theme Palette" role="group" aria-label="Theme palette selector">
+        <div class="theme-dot active" data-pick="cyan" title="Cyber Cyan" role="button" tabindex="0"></div>
+        <div class="theme-dot" data-pick="crimson" title="Autobot Crimson" role="button" tabindex="0"></div>
+        <div class="theme-dot" data-pick="gold" title="Energon Gold" role="button" tabindex="0"></div>
+        <div class="theme-dot" data-pick="emerald" title="Neural Emerald" role="button" tabindex="0"></div>
+        <div class="theme-dot" data-pick="purple" title="Void Purple" role="button" tabindex="0"></div>
+      </div>
+
+      <!-- Procedural Sound FX Toggle -->
+      <button class="hud-btn" id="soundToggleBtn" type="button" aria-label="Toggle Sci-Fi Sound FX">
+        <i class="bx bx-volume-full" aria-hidden="true"></i>
+        <span id="soundLabel">SFX OFF</span>
+      </button>
+
+      <!-- Uplink Modal Trigger -->
+      <button class="hud-btn" data-open-uplink type="button" aria-label="Open Secure Uplink">
+        <i class="bx bx-broadcast" aria-hidden="true"></i>
+        <span>UPLINK</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3D Hero Section -->
+  <main>
+    <section class="hero-viewport" id="home">
+      <div class="hero-grid">
+        
+        <!-- Left Intel & Call to Actions -->
+        <div class="hero-intel">
+          
+          <div class="cyber-badge">
+            <i class="bx bx-radar" aria-hidden="true"></i>
+            <span>SYSTEM LINK ESTABLISHED // V2.0</span>
+          </div>
+
+          <div class="hero-greeting">
+            HELLO, IT'S <span>// ABID HUSSAIN</span>
+          </div>
+
+          <h1 class="hero-name">
+            ENGINEERING <br>
+            <span class="cyber-highlight">DIGITAL WORLDS</span>
+          </h1>
+
+          <div class="hero-roles" aria-live="polite">
+            <span>AND I'M A </span>
+            <span class="typed-text" id="typedHeroRole">Creative Developer</span>
+            <span class="typed-cursor">_</span>
+          </div>
+
+          <p class="hero-summary">
+            I craft captivating web experiences with precision and cutting-edge technology as a 
+            <strong>front-end developer</strong> with a <strong>B.Tech in Computer Science</strong>. 
+            Bridging interface engineering, 3D motion, VFX, and interactive systems.
+          </p>
+
+          <!-- Featured Project Intel Chips -->
+          <div class="hero-tech-pills" role="region" aria-label="Featured Portfolio Telemetry">
+            <span class="tech-pill" data-project-key="motion" role="button" tabindex="0" title="Inspect 3D Motion Project">
+              <i class="bx bx-cube-alt" aria-hidden="true"></i> 3D Motion Morphism
+            </span>
+            <span class="tech-pill" data-project-key="physics" role="button" tabindex="0" title="Inspect Game Physics Project">
+              <i class="bx bx-atom" aria-hidden="true"></i> Game Physics Engine
+            </span>
+            <span class="tech-pill" data-project-key="cybertronian" role="button" tabindex="0" title="Inspect Cybertronian Interface">
+              <i class="bx bx-terminal" aria-hidden="true"></i> Cybertronian HUD
+            </span>
+            <span class="tech-pill" data-project-key="profile" role="button" tabindex="0" title="Inspect Modern Profile Card">
+              <i class="bx bx-id-card" aria-hidden="true"></i> Modern Profile Card
+            </span>
+          </div>
+
+          <!-- Main Call to Actions -->
+          <div class="hero-cta-group">
+            <a href="https://wa.me/917051697177?text=Hello%20I%20want%20to%20order%20a%20product" target="_blank" rel="noopener noreferrer" class="btn-cyber-primary" title="Initialize WhatsApp Commission or Order">
+              <i class="bx bx-paper-plane" aria-hidden="true"></i>
+              <span>DEPLOY PROJECT</span>
+            </a>
+
+            <a href="public/resume.pdf" download="Abid_Hussain_Resume.pdf" class="btn-cyber-secondary" title="Download Abid's Resume (PDF, 46 KB)">
+              <i class="bx bx-download" aria-hidden="true"></i>
+              <span>RESUME [46 KB]</span>
+            </a>
+
+            <button type="button" class="btn-cyber-ghost" id="shockwaveBtn" title="Disperse and Pulse the 3D Cyber Core">
+              <i class="bx bx-pulse" aria-hidden="true"></i>
+              <span>CORE PULSE 💥</span>
+            </button>
+          </div>
+
+          <!-- Social Matrix Uplink Dock -->
+          <div class="social-dock" role="navigation" aria-label="Social connections">
+            <a href="https://linkedin.com/in/op10y" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="LinkedIn" aria-label="LinkedIn profile">
+              <i class="bx bxl-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="https://github.com/op10y" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="GitHub" aria-label="GitHub profile">
+              <i class="bx bxl-github" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/0p10y" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="Instagram" aria-label="Instagram profile">
+              <i class="bx bxl-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.twitter.com/0p10y" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="Twitter / X" aria-label="Twitter profile">
+              <i class="bx bxl-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="https://youtube.com/@0p10ydirect?si=r4uRtPlm5hzx03zt" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="YouTube" aria-label="YouTube Channel">
+              <i class="bx bxl-youtube" aria-hidden="true"></i>
+            </a>
+            <a href="https://wa.me/919320647041" target="_blank" rel="noopener noreferrer" class="social-node" data-tooltip="WhatsApp" aria-label="Direct WhatsApp message">
+              <i class="bx bxl-whatsapp" aria-hidden="true"></i>
+            </a>
+            <button type="button" class="social-node" data-open-uplink data-tooltip="Comms Uplink" aria-label="Open communication hub">
+              <i class="bx bx-envelope" aria-hidden="true"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right 3D Holographic Card & Avatar Stage -->
+        <div class="hero-stage-3d">
+          <div class="cyber-card-wrapper" id="cyberCardWrapper">
+            <div class="cyber-card" id="cyberCard">
+              
+              <!-- Specular Glare & Scan Beam -->
+              <div class="cyber-card-effects" aria-hidden="true">
+                <div class="cyber-card-glare"></div>
+                <div class="cyber-card-scanner"></div>
+              </div>
+
+              <!-- Top Card HUD Meta -->
+              <div class="card-hud-top">
+                <span class="hud-badge-active">
+                  <span class="pulse-dot" aria-hidden="true"></span>
+                  OPERATOR: ACTIVE
+                </span>
+                <span class="hud-badge-id">ID: OP10Y_01</span>
+              </div>
+
+              <!-- Avatar with Rotating Tech Orbitals -->
+              <div class="card-avatar-container">
+                <div class="avatar-orbit-ring" aria-hidden="true"></div>
+                <div class="avatar-orbit-ring-outer" aria-hidden="true"></div>
+                
+                <div class="avatar-image-frame">
+                  <img src="assets/av.jpg" alt="Abid Hussain avatar" class="avatar-image" width="190" height="190">
+                </div>
+
+                <!-- Floating 3D Telemetry Badges -->
+                <div class="card-floating-badge badge-left">
+                  <i class="bx bx-code-curly" aria-hidden="true"></i>
+                  <span>B.Tech CS</span>
+                </div>
+                <div class="card-floating-badge badge-right">
+                  <i class="bx bx-shield-quarter" aria-hidden="true"></i>
+                  <span>System Eng.</span>
+                </div>
+              </div>
+
+              <!-- Card Author Info -->
+              <div class="card-details">
+                <h2 class="card-author-name">ABID HUSSAIN</h2>
+                <p class="card-author-title">FRONT-END DEV &amp; DIGITAL ARTIST</p>
+                <div class="card-location">
+                  <i class="bx bx-map-pin" aria-hidden="true"></i>
+                  <span>Srinagar, Jammu &amp; Kashmir</span>
+                </div>
+              </div>
+
+              <!-- Card Skill Bars Matrix -->
+              <div class="card-skills-matrix" aria-label="Core Technical Proficiencies">
+                <div class="skill-row">
+                  <div class="skill-info">
+                    <span>Web Design &amp; UI</span>
+                    <span>95%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="width: 95%;"></div>
+                  </div>
+                </div>
+
+                <div class="skill-row">
+                  <div class="skill-info">
+                    <span>System Engineering</span>
+                    <span>85%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="width: 85%;"></div>
+                  </div>
+                </div>
+
+                <div class="skill-row">
+                  <div class="skill-info">
+                    <span>Interactive 3D &amp; VFX</span>
+                    <span>70%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="width: 70%;"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Floating 3D Scene Controls Dock -->
+      <aside class="scene-dock" aria-label="3D Viewport Controls">
+        <button class="dock-btn" id="tiltModeToggle" type="button" aria-label="Toggle Gyroscope / Mouse Tilt">
+          <i class="bx bx-mobile" aria-hidden="true"></i>
+          <span id="tiltModeLabel">Mouse tilt</span>
+        </button>
+        <span class="dock-separator" aria-hidden="true"></span>
+        <button class="dock-btn" id="wireframeToggleBtn" type="button" aria-label="Toggle Core Wireframe / Solid">
+          <i class="bx bx-polygon" aria-hidden="true"></i>
+          <span>Wireframe</span>
+        </button>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Bottom Telemetry Ticker -->
+  <footer class="hud-ticker-footer" role="contentinfo">
+    <div class="ticker-left">
+      <span>OPTIMUS PRIME COMMAND DECK</span>
+      <span class="ticker-highlight">AUTOBOT NETWORK // NOMINAL</span>
+      <span>ENERGY TRANSFER: <b class="ticker-highlight">99.4%</b></span>
+    </div>
+    <div class="ticker-right">
+      <span>DESIGN &amp; CODE BY <b>ABID HUSSAIN (OP10Y)</b></span>
+      <a href="https://opty.linkpc.net" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">ORIGINAL SITE</a>
+    </div>
+  </footer>
+
+  <!-- Secure Uplink Comms Modal Dialog -->
+  <div class="cyber-modal-backdrop" id="uplinkModal" role="dialog" aria-modal="true" aria-labelledby="modalUplinkTitle">
+    <div class="cyber-modal-window">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalUplinkTitle">SECURE UPLINK / COMMS</h3>
+          <p class="modal-subtitle">CHOOSE DIRECT COMMUNICATION CHANNEL</p>
+        </div>
+        <button class="modal-close-btn" data-close-uplink type="button" aria-label="Close Uplink Dialog">
+          <i class="bx bx-x" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="modal-content-grid">
+        <a href="https://wa.me/917051697177?text=Hello%20Abid%2C%20I%20want%20to%20collaborate%20on%20a%20project" target="_blank" rel="noopener noreferrer" class="uplink-channel-card">
+          <div class="uplink-channel-left">
+            <div class="uplink-channel-icon"><i class="bx bxl-whatsapp"></i></div>
+            <div>
+              <div class="uplink-channel-name">WhatsApp Direct</div>
+              <div class="uplink-channel-desc">+91 7051697177 (Instant response)</div>
+            </div>
+          </div>
+          <i class="bx bx-chevron-right uplink-channel-arrow"></i>
+        </a>
+
+        <a href="mailto:27aabii@gmail.com?subject=Portfolio%20Inquiry%20-%20Abid%20Hussain" class="uplink-channel-card">
+          <div class="uplink-channel-left">
+            <div class="uplink-channel-icon"><i class="bx bx-envelope"></i></div>
+            <div>
+              <div class="uplink-channel-name">Primary Email</div>
+              <div class="uplink-channel-desc">27aabii@gmail.com</div>
+            </div>
+          </div>
+          <i class="bx bx-chevron-right uplink-channel-arrow"></i>
+        </a>
+
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=27aabii@gmail.com&su=Portfolio%20Project%20Contact" target="_blank" rel="noopener noreferrer" class="uplink-channel-card">
+          <div class="uplink-channel-left">
+            <div class="uplink-channel-icon"><i class="bx bxl-gmail"></i></div>
+            <div>
+              <div class="uplink-channel-name">Gmail Quick Compose</div>
+              <div class="uplink-channel-desc">Launch web compose in browser</div>
+            </div>
+          </div>
+          <i class="bx bx-chevron-right uplink-channel-arrow"></i>
+        </a>
+
+        <a href="https://linkedin.com/in/op10y" target="_blank" rel="noopener noreferrer" class="uplink-channel-card">
+          <div class="uplink-channel-left">
+            <div class="uplink-channel-icon"><i class="bx bxl-linkedin"></i></div>
+            <div>
+              <div class="uplink-channel-name">LinkedIn InMail</div>
+              <div class="uplink-channel-desc">linkedin.com/in/op10y</div>
+            </div>
+          </div>
+          <i class="bx bx-chevron-right uplink-channel-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Telemetry Modal Dialog -->
+  <div class="cyber-modal-backdrop" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+    <div class="cyber-modal-window">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="projectModalTitle">Project Title</h3>
+          <p class="modal-subtitle" id="projectModalCategory">Category</p>
+        </div>
+        <button class="modal-close-btn" data-close-project type="button" aria-label="Close Project Dialog">
+          <i class="bx bx-x" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <p id="projectModalDesc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;"></p>
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary-color); margin-bottom: 8px;">TECHNICAL ARCHITECTURE:</div>
+        <div id="projectModalSpecs" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;"></div>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button type="button" class="btn-cyber-secondary" data-close-project>CLOSE</button>
+        <a id="projectModalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-cyber-primary">
+          <span>EXPLORE DEMO</span>
+          <i class="bx bx-link-external"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js (r128) via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Custom Scripts -->
+  <script src="js/audio-fx.js"></script>
+  <script src="js/three-scene.js"></script>
+  <script src="js/hero-app.js"></script>
+</body>
+</html>
