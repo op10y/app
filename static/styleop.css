@@ -414,6 +414,189 @@
             animation: none;
         }
     }
+
+    /* ── LOADER RESPONSIVE (additional breakpoints) ──────── */
+
+    /* Tablet / mid-range (521px – 900px) */
+    @media screen and (min-width: 521px) and (max-width: 900px) {
+        .loader-console {
+            padding: 0 clamp(28px, 5vw, 60px);
+        }
+
+        .loader-topline {
+            right: clamp(28px, 5vw, 60px);
+            left:  clamp(28px, 5vw, 60px);
+        }
+
+        .loader-footer {
+            right: clamp(28px, 5vw, 60px);
+            left:  clamp(28px, 5vw, 60px);
+        }
+
+        #loading h2,
+        #loading h2 span {
+            font-size: clamp(28px, 5.5vw, 42px);
+        }
+    }
+
+    /* Very small phones (≤ 360px) */
+    @media screen and (max-width: 360px) {
+        #loading h2,
+        #loading h2 span {
+            font-size: 22px;
+        }
+
+        .loader-kicker {
+            font-size: 9px;
+        }
+
+        .loader-topline {
+            font-size: 8px;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    /* ── LOADER THEME COLOURS ────────────────────────────── */
+    /*
+     * --loader-blue  → primary accent (kicker, signal bars, items2, progress glow)
+     * --loader-red   → warning accent (corner bar, heading span, topline icon)
+     * --loader-ice   → subtitle highlight
+     */
+
+    /* Default / color-1  (cyan) */
+    :root #loading,
+    :root.color-1 #loading {
+        --loader-blue: #43b8e8;
+        --loader-red:  #e34d42;
+        --loader-ice:  #d9f5fa;
+    }
+
+    /* color-2  (green) */
+    :root.color-2 #loading {
+        --loader-blue: #10f000;
+        --loader-red:  #0060f0;
+        --loader-ice:  #c8ffc0;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(16, 168, 24, .18), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(0, 96, 240, .15), transparent 32%),
+            linear-gradient(145deg, #051209 0%, #0b1e10 52%, #0c130d 100%);
+    }
+
+    /* color-3  (teal-green) */
+    :root.color-3 #loading {
+        --loader-blue: #00f07c;
+        --loader-red:  #00f000;
+        --loader-ice:  #b8fff2;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(0, 200, 120, .18), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(0, 240, 0, .12), transparent 32%),
+            linear-gradient(145deg, #0b0519 0%, #0d1124 52%, #0c1014 100%);
+    }
+
+    /* color-4  (gold) */
+    :root.color-4 #loading {
+        --loader-blue: #f0c800;
+        --loader-red:  #00f0a8;
+        --loader-ice:  #fff8c0;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(200, 160, 0, .18), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(0, 200, 100, .12), transparent 32%),
+            linear-gradient(145deg, #120509 0%, #1a1005 52%, #13100c 100%);
+    }
+
+    /* color-5  (matrix green on dark) */
+    :root.color-5 #loading {
+        --loader-blue: #0dff00;
+        --loader-red:  #f00050;
+        --loader-ice:  #c8ffc0;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(13, 255, 0, .10), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(240, 0, 80, .10), transparent 32%),
+            linear-gradient(145deg, #0d0d0d 0%, #141414 52%, #0f0f0f 100%);
+    }
+
+    /* color-6  (light / white) */
+    :root.color-6 #loading {
+        --loader-blue: #333333;
+        --loader-red:  #5c00f0;
+        --loader-ice:  #222222;
+        color: #111;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(90, 0, 200, .10), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(0, 0, 0, .08), transparent 32%),
+            linear-gradient(145deg, #c8c8c8 0%, #d8d8d8 52%, #cccccc 100%);
+    }
+    :root.color-6 #loading h2,
+    :root.color-6 #loading .loader-topline,
+    :root.color-6 #loading .loader-footer strong { color: #111; }
+    :root.color-6 #loading .loader-live           { color: #333; }
+    :root.color-6 #loading .loader-console::before { border-color: rgba(0,0,0,.18); }
+    :root.color-6 #loading::before {
+        background-image:
+            linear-gradient(rgba(0,0,0,.09) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,.09) 1px, transparent 1px);
+    }
+
+    /* color-7  (grayscale dark) */
+    :root.color-7 #loading {
+        --loader-blue: #e4e4e4;
+        --loader-red:  #00f000;
+        --loader-ice:  #ffffff;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(200, 200, 200, .10), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(0, 200, 0, .10), transparent 32%),
+            linear-gradient(145deg, #1a1a1a 0%, #222222 52%, #1c1c1c 100%);
+    }
+
+    /* color-8  (cyan-teal) */
+    :root.color-8 #loading {
+        --loader-blue: #65e3d1;
+        --loader-red:  #ff9b62;
+        --loader-ice:  #d0fff8;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(101, 227, 209, .14), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(255, 155, 98, .12), transparent 32%),
+            linear-gradient(145deg, #050d10 0%, #090f12 52%, #080e11 100%);
+    }
+
+    /* color-9  (neon green) */
+    :root.color-9 #loading {
+        --loader-blue: #40ff8b;
+        --loader-red:  #c8ff57;
+        --loader-ice:  #d5ffe2;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(64, 255, 139, .12), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(200, 255, 87, .10), transparent 32%),
+            linear-gradient(145deg, #020804 0%, #050e08 52%, #040a06 100%);
+    }
+
+    /* color-10  (blue command) */
+    :root.color-10 #loading {
+        --loader-blue: #58b7ff;
+        --loader-red:  #ff435b;
+        --loader-ice:  #e8f2ff;
+        background:
+            radial-gradient(ellipse at 14% 20%, rgba(88, 183, 255, .16), transparent 35%),
+            radial-gradient(ellipse at 88% 82%, rgba(255, 67, 91, .13), transparent 32%),
+            linear-gradient(145deg, #05080f 0%, #080d18 52%, #070c14 100%);
+    }
+
+    /* Progress bar gradient follows each theme's accent */
+    :root.color-2  #loading-bar-progress { background: linear-gradient(90deg, #08a000 0%, #10f000 50%, #c8ffc0 80%, #0060f0 100%);  box-shadow: 0 0 16px rgba(16,240,0,.55); }
+    :root.color-3  #loading-bar-progress { background: linear-gradient(90deg, #00c060 0%, #00f07c 50%, #b8fff2 80%, #00f000 100%);  box-shadow: 0 0 16px rgba(0,240,124,.55); }
+    :root.color-4  #loading-bar-progress { background: linear-gradient(90deg, #c09000 0%, #f0c800 50%, #fff8c0 80%, #00f0a8 100%);  box-shadow: 0 0 16px rgba(240,200,0,.55); }
+    :root.color-5  #loading-bar-progress { background: linear-gradient(90deg, #08c000 0%, #0dff00 50%, #c8ffc0 80%, #f00050 100%);  box-shadow: 0 0 16px rgba(13,255,0,.55); }
+    :root.color-6  #loading-bar-progress { background: linear-gradient(90deg, #aaa 0%, #333 50%, #111 80%, #5c00f0 100%);           box-shadow: 0 0 16px rgba(0,0,0,.30); }
+    :root.color-7  #loading-bar-progress { background: linear-gradient(90deg, #777 0%, #e4e4e4 50%, #fff 80%, #00f000 100%);        box-shadow: 0 0 16px rgba(200,200,200,.35); }
+    :root.color-8  #loading-bar-progress { background: linear-gradient(90deg, #1ab8a0 0%, #65e3d1 50%, #d0fff8 80%, #ff9b62 100%); box-shadow: 0 0 16px rgba(101,227,209,.55); }
+    :root.color-9  #loading-bar-progress { background: linear-gradient(90deg, #20c060 0%, #40ff8b 50%, #d5ffe2 80%, #c8ff57 100%); box-shadow: 0 0 16px rgba(64,255,139,.55); }
+    :root.color-10 #loading-bar-progress { background: linear-gradient(90deg, #2070c0 0%, #58b7ff 50%, #e8f2ff 80%, #ff435b 100%); box-shadow: 0 0 16px rgba(88,183,255,.55); }
+
+    /* Live dot colour follows --loader-blue */
+    #loading .loader-live i {
+        background:  var(--loader-blue);
+        box-shadow: 0 0 10px var(--loader-blue);
+    }
 .edity {
     display: none;
 }

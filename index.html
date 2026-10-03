@@ -37,8 +37,10 @@
 
 
 
-    
-    
+    <!-- Apply saved theme to :root before first paint so the loader renders in the correct theme -->
+    <script>
+      (function(){var t=localStorage.getItem('currentColorScheme');if(t)document.documentElement.classList.add(t);})();
+    </script>
 </head>
 
 <body>
