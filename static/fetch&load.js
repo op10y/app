@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       animationInterval = null;
     }
   }
+function finishLoading() {
 
-  function finishLoading() {
     // STOP changingText2 permanently
     stopLoaderAnimation();
 
@@ -66,18 +66,38 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Show page
     if (page) {
-      page.style.display = "block";
+        page.style.display = "block";
     }
 
     // Hide loader
     if (loader) {
-      loader.style.display = "none";
+        loader.style.display = "none";
     }
 
     // Tell the rest of your JS that everything is ready
     window.dispatchEvent(new Event("page-ready"));
-  }
 
+    // ==========================================
+    // RANDOM INITIAL HERO MODE
+    // ==========================================
+
+    setTimeout(function () {
+
+        // 50% chance of activating whatever
+        // your existing toggle activates.
+        if (Math.random() < 0.5) {
+
+            const heroToggle =
+                document.getElementById("hero-mode-toggle");
+
+            if (heroToggle) {
+                heroToggle.click();
+            }
+
+        }
+
+    }, 50);
+}
   // =========================================================
   // HTML SECTIONS
   // =========================================================

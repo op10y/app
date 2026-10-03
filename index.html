@@ -44,7 +44,7 @@
 </head>
 
 <body>
-
+e
 <!-- Floating hero-mode toggle — lives directly in body so position:fixed is viewport-relative -->
 <div id="hero-mode-toggle" role="button" tabindex="0" aria-label="Switch to 3D hero mode" data-tip="3D HERO">
   <span class="t-icon t-icon-orig"><i class="bx bx-cube-alt"></i></span>
@@ -90,7 +90,7 @@
   scrolling="no"
   allow="autoplay"
   src="about:blank"
-  data-src="app2/index.html">
+  data-src="app2/indx.html">
 </iframe>
 
 <!-- Floating hero-mode toggle button -->
@@ -1458,9 +1458,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="static/app.js?v=commander-deck"></script>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-<!-- Hero mode toggle logic -->
+```html
 <script>
 (function () {
+
   var btn    = document.getElementById('hero-mode-toggle');
   var frame  = document.getElementById('hero-3d-frame');
   var is3d   = false;
@@ -1470,46 +1471,128 @@ document.addEventListener("DOMContentLoaded", function () {
   function revealBtn() {
     btn.classList.add('toggle-ready');
   }
+
   window.addEventListener('page-ready', revealBtn);
+
   // Fallback: if page-ready already fired or never comes, reveal after 4s
   setTimeout(revealBtn, 4000);
 
+
+  // ================================
+  // 3D MODE
+  // ================================
+
   function activate3d() {
+
     if (!loaded) {
       frame.src = frame.dataset.src;
       loaded = true;
     }
+
     document.body.classList.add('hero-3d-active');
+
     btn.setAttribute('data-tip', 'ORIGINAL');
     btn.setAttribute('aria-label', 'Switch back to original hero');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
+
+  // ================================
+  // ORIGINAL MODE
+  // ================================
+
   function deactivate3d() {
+
     document.body.classList.remove('hero-3d-active');
+
     btn.setAttribute('data-tip', '3D HERO');
     btn.setAttribute('aria-label', 'Switch to 3D hero mode');
   }
 
+
+  // ================================
+  // NORMAL USER TOGGLE
+  // ================================
+
   function toggle() {
+
     is3d = !is3d;
-    if (is3d) activate3d(); else deactivate3d();
+
+    if (is3d) {
+      activate3d();
+    } else {
+      deactivate3d();
+    }
   }
 
+
+  // Manual click
   btn.addEventListener('click', toggle);
+
+  // Keyboard support
   btn.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+
+      e.preventDefault();
+      toggle();
+
+    }
+
   });
 
-  // Hide button when scrolled away from top, show when back at top
+
+  // ================================
+  // HIDE BUTTON WHILE SCROLLING
+  // ================================
+
   window.addEventListener('scroll', function () {
+
     if (window.scrollY > 80) {
       btn.classList.add('toggle-hidden');
     } else {
       btn.classList.remove('toggle-hidden');
     }
+
   }, { passive: true });
+
+
+  // ==================================================
+  // AUTOMATIC HERO PREVIEW
+  // ==================================================
+
+  setTimeout(function () {
+
+    // Only start if user hasn't manually changed the mode
+    if (!is3d) {
+
+      is3d = true;
+      activate3d();
+
+      // After 3 seconds, return to original hero
+      setTimeout(function () {
+
+        if (is3d) {
+
+          is3d = false;
+          deactivate3d();
+
+        }
+
+      }, 3000);
+
+    }
+
+  }, 3000);
+
+
 })();
 </script>
+```
+
 </body>
 </html>
