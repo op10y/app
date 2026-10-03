@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       animationInterval = null;
     }
   }
-function finishLoading() {
+
+  function finishLoading() {
 
     // STOP changingText2 permanently
     stopLoaderAnimation();
@@ -98,6 +99,11 @@ function finishLoading() {
 
     }, 50);
 }
+
+
+
+
+
   // =========================================================
   // HTML SECTIONS
   // =========================================================
